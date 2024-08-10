@@ -1,0 +1,4 @@
+.bg-body-gradient{
+    background-color: #dfeef1 !important;
+    background-image: linear-gradient(180deg, #becdf7 10%, #f9f9fb 100%) !important;
+}

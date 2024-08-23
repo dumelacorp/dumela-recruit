@@ -1,7 +1,20 @@
 <?php
     session_start();
 
-    $page = 'candidates/register.php';
+    // $page = 'candidates/register.php';
+    //$page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+
+    //$current_page = $_GET['page'] ?? '';
+    $current_page = isset($_GET['page']) ? $_GET['page'] : 'list';
+    //$page = isset($_GET['page']) ? $_GET['page'] : 'list';
+    $is_candidates_page = in_array($current_page, ['new', 'list']);
+    $is_user_action_page = ($current_page === 'register');
+
+    //$page = isset($_GET['page']) ? $_GET['page'] : 'list';
+
+    // if ($current_page === 'list') {
+    //     include 'candidates/list.php';
+    // } 
 
     if(isset($_SESSION['page'])) {
         $page = $_SESSION['page'];
@@ -55,9 +68,9 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
-                <div class="sidebar-brand-icon rotate-n-15">
+                <div class="sidebar-brand-icon">
                     <!-- <i class="fas fa-laugh-wink"></i> -->
-                    <img src="assets/img/dumela_logo.webp" alt="Logo" width=40 height=40>
+                    <img src="assets/img/dumela_logo.webp" alt="Logo" width=60 height=35>
                 </div>
                 <div class="sidebar-brand-text mx-3">Dumela Recruitment</div>
             </a>
@@ -81,17 +94,35 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+            <!-- <li class="nav-item">
+                <a class="nav-link collapsed <?php echo ($page === 'candidates/list.php') ? 'active' : ''; ?>" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Candidates</span>
                 </a>
+
+
+
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Candidates Actions:</h6>
-                        <a class="collapse-item" href="?page=new">New</a>
+                        <a class="collapse-item <?php echo ($page === 'candidates/register.php') ? 'active' : ''; ?>" href="?page=new">New</a>
                         <a class="collapse-item" href="?page=list">List</a>
+                    </div>
+                </div>
+            </li> -->
+
+            <li class="nav-item">
+                <a class="nav-link <?php echo $is_candidates_page ? '' : 'collapsed'; ?>" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="<?php echo $is_candidates_page ? 'true' : 'false'; ?>" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Candidates</span>
+                </a>
+                <div id="collapseTwo" class="collapse <?php echo $is_candidates_page ? 'show' : ''; ?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Candidates Actions:</h6>
+                        <a class="collapse-item <?php echo $current_page === 'new' ? 'active' : ''; ?>" href="?page=new">New</a>
+                        <a class="collapse-item <?php echo $current_page === 'list' ? 'active' : ''; ?>" href="?page=list">List</a>
                     </div>
                 </div>
             </li>
@@ -116,11 +147,6 @@
                         <h6 class="collapse-header">User Actions:</h6>
                         <!-- <a class="collapse-item" href="login.html">Login</a> -->
                         <a class="collapse-item" href="../register.php" target="_blank">Register</a>
-                        <!-- <a class="collapse-item" href="forgot-password.html">Forgot Password</a> -->
-                        <!-- <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item" href="blank.html">Blank Page</a> -->
                     </div>
                 </div>
             </li>
@@ -181,7 +207,7 @@
                         </li>
 
                         <!-- Nav Item - Alerts -->
-                    
+
 
                         <!-- Nav Item - Messages -->
 
@@ -254,7 +280,7 @@
                                         }elseif ($_GET['candidate_action'] == 'delete'){
                                             include 'candidates/delete.php';
                                         }
-                                        
+
                                     }
                                     if (isset($_GET['page'])){
                                         if ($_GET['page'] == 'new'){
@@ -273,7 +299,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
                 <!-- /.container-fluid -->
 

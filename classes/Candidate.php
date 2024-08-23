@@ -93,9 +93,19 @@ class Candidate {
         return false;
     }
 
-    public function read() {
-        $query = 'SELECT * FROM ' . $this->table . ' ORDER BY created_at DESC';
+    // public function read() {
+    //     $query = 'SELECT * FROM ' . $this->table . ' ORDER BY created_at DESC';
+    //     $stmt = $this->conn->prepare($query);
+    //     $stmt->execute();
+    //     return $stmt;
+    // }
+
+    public function read($limit = 10, $offset = 0) {
+        // $query = 'SELECT * FROM ' . $this->table . ' LIMIT :limit OFFSET :offset ORDER BY created_at DESC';
+        $query = "SELECT * FROM candidates ORDER BY created_at DESC LIMIT :limit OFFSET :offset";
         $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt;
     }
@@ -108,6 +118,26 @@ class Candidate {
             $total_candidates = $stmt->fetch(PDO::FETCH_ASSOC);
             return $total_candidates['total'];
         }catch(PDOException $e){
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getTotalCandidatesForSearch($search_string) {
+        try {
+            $query = "SELECT COUNT(*) as total FROM candidates WHERE 
+                first_name LIKE :search OR 
+                last_name LIKE :search OR 
+                country LIKE :search OR 
+                job_title LIKE :search OR 
+                level LIKE :search";
+            $stmt = $this->conn->prepare($query);
+            $search_param = "%{$search_string}%";
+            $stmt->bindParam(':search', $search_param);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $row['total'];
+        } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
             return false;
         }
@@ -130,24 +160,41 @@ class Candidate {
         }
     }
 
-    public function findCandidatesByMultipleParameters($search_string){
+    public function findCandidatesByMultipleParameters($search_string, $limit = 10, $offset = 0){
         try{
-            $stmt = $this->conn->prepare("SELECT * FROM " . $this->table . " WHERE first_name LIKE :search_string 
-            OR last_name LIKE :search_string 
-            OR country LIKE :search_string 
-            OR job_title LIKE :search_string 
-            OR level LIKE :search_string
-            ORDER BY created_at DESC
-            ");
+            // $stmt = $this->conn->prepare("SELECT * FROM " . $this->table . " WHERE first_name LIKE :search_string 
+            // OR last_name LIKE :search_string 
+            // OR country LIKE :search_string 
+            // OR job_title LIKE :search_string 
+            // OR level LIKE :search_string
+            // ORDER BY created_at DESC
+            // ");
 
-            $search_string = "%" . $search_string . "%";
-            $stmt->bindParam(':search_string', $search_string, PDO::PARAM_STR);
+            // $search_string = "%" . $search_string . "%";
+            // $stmt->bindParam(':search_string', $search_string, PDO::PARAM_STR);
 
+            // $stmt->execute();
+            
+            // // $candidate = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            // return $stmt;
+
+            $query = "SELECT * FROM candidates WHERE 
+              first_name LIKE :search OR 
+              last_name LIKE :search OR 
+              country LIKE :search OR 
+              job_title LIKE :search OR 
+              level LIKE :search
+              ORDER BY created_at DESC
+              LIMIT :limit OFFSET :offset";
+            $stmt = $this->conn->prepare($query);
+            $search_param = "%{$search_string}%";
+            $stmt->bindParam(':search', $search_param);
+            $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+            $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
             $stmt->execute();
-            
-            // $candidate = $stmt->fetch(PDO::FETCH_ASSOC);
-            
             return $stmt;
+            
         }catch(PDOException $e){
             echo "Error searching for the candidate.";
             return false;

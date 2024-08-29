@@ -6,8 +6,11 @@
 
     //$current_page = $_GET['page'] ?? '';
     $current_page = isset($_GET['page']) ? $_GET['page'] : 'list';
+    $current_company_page = isset($_GET['company']) ? $_GET['company'] : 'list';
     //$page = isset($_GET['page']) ? $_GET['page'] : 'list';
     $is_candidates_page = in_array($current_page, ['new', 'list']);
+    $is_candidates_company_page = in_array($current_company_page, ['new', 'list']);
+
     $is_user_action_page = ($current_page === 'register');
 
     //$page = isset($_GET['page']) ? $_GET['page'] : 'list';
@@ -18,6 +21,9 @@
 
     if(isset($_SESSION['page'])) {
         $page = $_SESSION['page'];
+    }
+    if(isset($_SESSION['company'])) {
+        $page = $_SESSION['company'];
     }
     if(!isset($_SESSION['user_id'])) {
         header('Location: ../login.php');
@@ -93,36 +99,47 @@
                 Candidates
             </div>
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            <!-- <li class="nav-item">
-                <a class="nav-link collapsed <?php echo ($page === 'candidates/list.php') ? 'active' : ''; ?>" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-users"></i>
-                    <span>Candidates</span>
-                </a>
+            <?php
+                // Determine which section is active
+                $active_section = '';
+                if (isset($_GET['page']) && ($_GET['page'] == 'new' || $_GET['page'] == 'list')) {
+                    $active_section = 'candidates';
+                } elseif (isset($_GET['company']) && ($_GET['company'] == 'new' || $_GET['company'] == 'list')) {
+                    $active_section = 'companies';
+                } 
 
-
-
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Candidates Actions:</h6>
-                        <a class="collapse-item <?php echo ($page === 'candidates/register.php') ? 'active' : ''; ?>" href="?page=new">New</a>
-                        <a class="collapse-item" href="?page=list">List</a>
-                    </div>
-                </div>
-            </li> -->
+                // Preserve active section when clicking "New" under Companies
+                if (isset($_GET['company']) && $_GET['company'] == 'new') {
+                    $active_section = 'companies';
+                }
+            ?>
 
             <li class="nav-item">
-                <a class="nav-link <?php echo $is_candidates_page ? '' : 'collapsed'; ?>" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="<?php echo $is_candidates_page ? 'true' : 'false'; ?>" aria-controls="collapseTwo">
+                <a class="nav-link <?php echo $active_section === 'candidates' ? '' : 'collapsed'; ?>" href="#" data-toggle="collapse" data-target="#collapseCandidates"
+                aria-expanded="<?php echo $active_section === 'candidates' ? 'true' : 'false'; ?>" aria-controls="collapseCandidates">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Candidates</span>
                 </a>
-                <div id="collapseTwo" class="collapse <?php echo $is_candidates_page ? 'show' : ''; ?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseCandidates" class="collapse <?php echo $active_section === 'candidates' ? 'show' : ''; ?>" aria-labelledby="headingCandidates" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Candidates Actions:</h6>
-                        <a class="collapse-item <?php echo $current_page === 'new' ? 'active' : ''; ?>" href="?page=new">New</a>
-                        <a class="collapse-item <?php echo $current_page === 'list' ? 'active' : ''; ?>" href="?page=list">List</a>
+                        <a class="collapse-item <?php echo isset($_GET['page']) && $_GET['page'] === 'new' ? 'active' : ''; ?>" href="?page=new">New</a>
+                        <a class="collapse-item <?php echo isset($_GET['page']) && $_GET['page'] === 'list' ? 'active' : ''; ?>" href="?page=list">List</a>
+                    </div>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link <?php echo $active_section === 'companies' ? '' : 'collapsed'; ?>" href="#" data-toggle="collapse" data-target="#collapseCompanies"
+                aria-expanded="<?php echo $active_section === 'companies' ? 'true' : 'false'; ?>" aria-controls="collapseCompanies">
+                    <i class="fas fa-fw fa-building"></i>
+                    <span>Companies</span>
+                </a>
+                <div id="collapseCompanies" class="collapse <?php echo $active_section === 'companies' ? 'show' : ''; ?>" aria-labelledby="headingCompanies" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Companies Actions:</h6>
+                        <a class="collapse-item <?php echo isset($_GET['company']) && $_GET['company'] === 'new' ? 'active' : ''; ?>" href="?company=new">New</a>
+                        <a class="collapse-item <?php echo isset($_GET['company']) && $_GET['company'] === 'list' ? 'active' : ''; ?>" href="?company=list">List</a>
                     </div>
                 </div>
             </li>
@@ -270,18 +287,43 @@
                         <div class="col-md-12">
                             <div class="main-content">
                                 <?php
-                                    if (!isset($_GET['id']) && !isset($_GET['page'])){
+                                    if (!isset($_GET['id']) && !isset($_GET['page']) && !isset($_GET['company'])){
                                         include $page;
                                     }
                                     if (isset($_GET['id'])){
                                         $id = $_GET['id'];
-                                        if($_GET['candidate_action'] == 'update'){
-                                            include 'candidates/update.php';
-                                        }elseif ($_GET['candidate_action'] == 'delete'){
-                                            include 'candidates/delete.php';
+
+                                        if (isset($_GET['candidate_action'])) {
+                                            switch ($_GET['candidate_action']) {
+                                                case 'update':
+                                                    include 'candidates/update.php';
+                                                    break;
+                                                case 'delete':
+                                                    include 'candidates/delete.php';
+                                                    break;
+                                                default:
+                                                    echo "Invalid candidate action";
+                                            }
+                                        } elseif (isset($_GET['company_action'])) {
+                                            switch ($_GET['company_action']) {
+                                                case 'update':
+                                                    include 'companies/update.php';
+                                                    break;
+                                                case 'delete':
+                                                    include 'companies/delete.php';
+                                                    break;
+                                                default:
+                                                    echo "Invalid company action";
+                                            }
+                                        } else {
+                                            echo "No action specified";
                                         }
 
+                                    } else {
+                                        echo "No ID specified";
                                     }
+
+
                                     if (isset($_GET['page'])){
                                         if ($_GET['page'] == 'new'){
                                             include 'candidates/register.php';
@@ -290,6 +332,20 @@
                                         } elseif ($_GET['page'] == 'update'){
                                             include 'candidates/update.php';
                                         }elseif ($_GET['page'] == 'delete'){
+                                            include 'candidates/delete.php';
+                                        }else {
+                                            echo 'Oops! Sorry, page not found.';
+                                        }
+                                    }
+
+                                    if (isset($_GET['company'])){
+                                        if ($_GET['company'] == 'new'){
+                                            include 'companies/register.php';
+                                        } elseif ($_GET['company'] == 'list'){
+                                            include 'companies/list.php';
+                                        } elseif ($_GET['company'] == 'update'){
+                                            include 'companies/update.php';
+                                        }elseif ($_GET['company'] == 'delete'){
                                             include 'candidates/delete.php';
                                         }else {
                                             echo 'Oops! Sorry, page not found.';

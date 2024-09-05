@@ -29,11 +29,10 @@
             // Add this block to create the company
             if($company->create()) {
                 echo "Company created successfully";
-                // You might want to redirect to a success page or the company list
-                // header('Location: company_list.php');
-                // exit;
             } else {
                 echo "Failed to create company";
+                $timestamp = date('Y-m-d H:i:s'); 
+                error_log("$timestamp: Something went wrong while registering a company! \n", 3, 'error_log'); 
             }
         }
     }
@@ -64,7 +63,6 @@
             <div class="col-md-6 col-sm-12">
                 <div class="form-group">
                     <label for='country'>Country</label>
-                    <!-- <input type="text" name="country" class="form-control" required> -->
                     <select id="country" name="country" class="form-control" required>
                         <option value="">Select a country</option>
                         <option value="Afghanistan">Afghanistan</option>

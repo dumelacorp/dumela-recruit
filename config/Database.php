@@ -14,6 +14,8 @@ class Database {
             // die("Database successfully connected.");
         } catch(PDOException $e) {
             echo 'Connection Error: ' . $e->getMessage();
+            $timestamp = date('Y-m-d H:i:s'); 
+            error_log("$timestamp: Error connecting to database! \n", 3, 'error_log'); 
         }
         return $this->conn;
     }

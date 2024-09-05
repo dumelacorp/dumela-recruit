@@ -30,6 +30,8 @@
                 }catch(PDOException $e){
                     $_SESSION['alert']['type'] = 'error';
                     $_SESSION['alert']['message'] = "Something went wrong. We couldn't delete the data.";
+                    $timestamp = date('Y-m-d H:i:s'); 
+                    error_log("$timestamp: Something went wrong while deleting a candidate! \n", 3, 'error_log'); 
                 }
             }
         }

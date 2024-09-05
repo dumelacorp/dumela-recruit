@@ -1,6 +1,10 @@
-[24-Jun-2024 15:31:33 America/Boise] PHP Warning:  session_start(): open(/var/cpanel/php/sessions/ea-php82/sess_033b4aad0fea512a2d92e1f8af77cf4c, O_RDWR) failed: No such file or directory (2) in /home1/dumelaco/public_html/recruitify/public/dashboard/index.php on line 2
-[24-Jun-2024 15:31:33 America/Boise] PHP Warning:  session_start(): Failed to read session data: files (path: /var/cpanel/php/sessions/ea-php82) in /home1/dumelaco/public_html/recruitify/public/dashboard/index.php on line 2
-[24-Jun-2024 15:42:04 America/Boise] PHP Warning:  session_start(): open(/var/cpanel/php/sessions/ea-php82/sess_033b4aad0fea512a2d92e1f8af77cf4c, O_RDWR) failed: No such file or directory (2) in /home1/dumelaco/public_html/recruitify/public/dashboard/index.php on line 2
-[24-Jun-2024 15:42:04 America/Boise] PHP Warning:  session_start(): Failed to read session data: files (path: /var/cpanel/php/sessions/ea-php82) in /home1/dumelaco/public_html/recruitify/public/dashboard/index.php on line 2
-[24-Jun-2024 15:52:47 America/Boise] PHP Warning:  session_start(): open(/var/cpanel/php/sessions/ea-php82/sess_033b4aad0fea512a2d92e1f8af77cf4c, O_RDWR) failed: No such file or directory (2) in /home1/dumelaco/public_html/recruitify/public/dashboard/index.php on line 2
-[24-Jun-2024 15:52:47 America/Boise] PHP Warning:  session_start(): Failed to read session data: files (path: /var/cpanel/php/sessions/ea-php82) in /home1/dumelaco/public_html/recruitify/public/dashboard/index.php on line 2
+2024-09-05 01:23:31: Something went wrong while registering a user! 
+2024-09-05 09:01:17: Something went wrong while creating a user in the database! 
+2024-09-05 09:34:50: Error connecting to database! 
+2024-09-05 09:34:54: Error connecting to database! 
+2024-09-05 10:15:38: Something went wrong while creating a candidate in the database! 
+2024-09-05 10:17:02: Something went wrong while creating a company in the database! 
+2024-09-05 10:17:02: Something went wrong while registering a company! 
+2024-09-05 10:20:08: Something went wrong while creating a user in the database! 
+2024-09-05 10:23:21: Something went wrong while creating a company in the database! 
+2024-09-05 10:23:21: Something went wrong while registering a company! 

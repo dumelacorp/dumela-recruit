@@ -11,10 +11,6 @@
     $user = new User($db);
     $company = new Company($db);
 
-    // if(isset($_SESSION['page'])) {
-    //     $page = $_SESSION['page'];
-    // }
-
     if (isset($_GET['id'])) {
         $id = $_GET['id'];
         $row = $company->getCompanyDetailsById($id);
@@ -41,6 +37,8 @@
                 }catch(PDOException $e){
                     $_SESSION['alert']['type'] = 'error';
                     $_SESSION['alert']['message'] = "Something went wrong. We couldn't update the data.";
+                    $timestamp = date('Y-m-d H:i:s'); 
+                    error_log("$timestamp: Something went wrong while updating a company! \n", 3, 'error_log'); 
                 }
             }
         }

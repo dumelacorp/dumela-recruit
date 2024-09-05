@@ -1,23 +1,17 @@
 <?php
     session_start();
 
-    // $page = 'candidates/register.php';
-    //$page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+    $page = 'candidates/register.php';
 
-    //$current_page = $_GET['page'] ?? '';
+    $year = date('Y'); 
+
+    
     $current_page = isset($_GET['page']) ? $_GET['page'] : 'list';
     $current_company_page = isset($_GET['company']) ? $_GET['company'] : 'list';
-    //$page = isset($_GET['page']) ? $_GET['page'] : 'list';
     $is_candidates_page = in_array($current_page, ['new', 'list']);
     $is_candidates_company_page = in_array($current_company_page, ['new', 'list']);
 
     $is_user_action_page = ($current_page === 'register');
-
-    //$page = isset($_GET['page']) ? $_GET['page'] : 'list';
-
-    // if ($current_page === 'list') {
-    //     include 'candidates/list.php';
-    // } 
 
     if(isset($_SESSION['page'])) {
         $page = $_SESSION['page'];
@@ -366,7 +360,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Dumela Corp. 2024</span>
+                        <span>Copyright &copy; Dumela Corp. <?php echo date("Y"); ?></span>
                     </div>
                 </div>
             </footer>

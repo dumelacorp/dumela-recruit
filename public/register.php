@@ -34,6 +34,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     } else {
         echo "<div class='alert alert-danger'>$error</div>";
+        $timestamp = date('Y-m-d H:i:s'); 
+        error_log("$timestamp: User Registration Failed! \n", 3, 'dashboard/error_log'); 
     }
 }
 ?>

@@ -20,8 +20,8 @@ class User {
             $this->username = htmlspecialchars(strip_tags($this->username));
             $this->password = password_hash($this->password, PASSWORD_BCRYPT);
 
-            $stmt->bindParam(':username', $this->username);
-            $stmt->bindParam(':password', $this->password);
+            // $stmt->bindParam(':username', $this->username);
+            // $stmt->bindParam(':password', $this->password);
 
             if($stmt->execute()) {
                 return true;
@@ -30,6 +30,7 @@ class User {
             return false;
         }catch(PDOException $e){
             $timestamp = date('Y-m-d H:i:s'); 
+            error_log("$timestamp: $e \n", 3, '../public/dashboard/error_log'); 
             error_log("$timestamp: Something went wrong while creating a user in the database! \n", 3, '../public/dashboard/error_log'); 
         }
     }
@@ -54,7 +55,8 @@ class User {
             return false;
         }catch(PDOException $e){
             $timestamp = date('Y-m-d H:i:s'); 
-            error_log("$timestamp: Something went wrong while logging in the user in the database! \n", 3, 'error_log'); 
+            error_log("$timestamp: $e \n", 3, '../public/dashboard/error_log'); 
+            error_log("$timestamp: Something went wrong while logging in the user in the database! \n", 3, '../public/dashboard/error_log'); 
         }
     }
 
@@ -66,7 +68,8 @@ class User {
             return $stmt;
         }catch(PDOException $e){
             $timestamp = date('Y-m-d H:i:s'); 
-            error_log("$timestamp: Something went wrong while reading a user from the database! \n", 3, 'error_log'); 
+            error_log("$timestamp: $e \n", 3, '../public/dashboard/error_log'); 
+            error_log("$timestamp: Something went wrong while reading a user from the database! \n", 3, '../public/dashboard/error_log'); 
         }
     }
 
@@ -90,7 +93,8 @@ class User {
             return false;
         }catch(PDOException $e){
             $timestamp = date('Y-m-d H:i:s'); 
-            error_log("$timestamp: Something went wrong while updating a user in the database! \n", 3, 'error_log'); 
+            error_log("$timestamp: $e \n", 3, '../public/dashboard/error_log'); 
+            error_log("$timestamp: Something went wrong while updating a user in the database! \n", 3, '../public/dashboard/error_log'); 
         }
     }
 
@@ -110,7 +114,8 @@ class User {
             return false;
         }catch(PDOException $e){
             $timestamp = date('Y-m-d H:i:s'); 
-            error_log("$timestamp: Something went wrong while removing a user from the database! \n", 3, 'error_log'); 
+            error_log("$timestamp: $e \n", 3, '../public/dashboard/error_log'); 
+            error_log("$timestamp: Something went wrong while removing a user from the database! \n", 3, '../public/dashboard/error_log'); 
         }
     }
 }

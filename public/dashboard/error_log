@@ -8,3 +8,162 @@
 2024-09-05 10:20:08: Something went wrong while creating a user in the database! 
 2024-09-05 10:23:21: Something went wrong while creating a company in the database! 
 2024-09-05 10:23:21: Something went wrong while registering a company! 
+2024-09-06 17:58:05: Something went wrong while creating a candidate in the database! 
+2024-09-06 17:59:09: Something went wrong while creating a candidate in the database!
+2024-09-06 18:01:52: PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ':first_name,
+                middle_name = :middle_name,
+                la...' at line 2 in C:\xampp\htdocs\dumela-recruit\classes\Candidate.php:89
+Stack trace:
+#0 C:\xampp\htdocs\dumela-recruit\classes\Candidate.php(89): PDOStatement->execute()
+#1 C:\xampp\htdocs\dumela-recruit\public\dashboard\candidates\register.php(42): Candidate->create()
+#2 C:\xampp\htdocs\dumela-recruit\public\dashboard\index.php(323): include('C:\\xampp\\htdocs...')
+#3 {main} 
+2024-09-06 18:01:52: Something went wrong while creating a candidate in the database! 
+2024-09-06 18:03:42: PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ':first_name,
+                middle_name = :middle_name,
+                la...' at line 2 in C:\xampp\htdocs\dumela-recruit\classes\Candidate.php:89
+Stack trace:
+#0 C:\xampp\htdocs\dumela-recruit\classes\Candidate.php(89): PDOStatement->execute()
+#1 C:\xampp\htdocs\dumela-recruit\public\dashboard\candidates\register.php(42): Candidate->create()
+#2 C:\xampp\htdocs\dumela-recruit\public\dashboard\index.php(323): include('C:\\xampp\\htdocs...')
+#3 {main} 
+2024-09-06 18:06:38: PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ':first_name,
+                middle_name = :middle_name,
+                la...' at line 2 in C:\xampp\htdocs\dumela-recruit\classes\Candidate.php:89
+Stack trace:
+#0 C:\xampp\htdocs\dumela-recruit\classes\Candidate.php(89): PDOStatement->execute()
+#1 C:\xampp\htdocs\dumela-recruit\public\dashboard\candidates\register.php(42): Candidate->create()
+#2 C:\xampp\htdocs\dumela-recruit\public\dashboard\index.php(323): include('C:\\xampp\\htdocs...')
+#3 {main} 
+2024-09-06 18:07:24: PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ':first_name,
+                middle_name = :middle_name,
+                la...' at line 2 in C:\xampp\htdocs\dumela-recruit\classes\Candidate.php:89
+Stack trace:
+#0 C:\xampp\htdocs\dumela-recruit\classes\Candidate.php(89): PDOStatement->execute()
+#1 C:\xampp\htdocs\dumela-recruit\public\dashboard\candidates\register.php(42): Candidate->create()
+#2 C:\xampp\htdocs\dumela-recruit\public\dashboard\index.php(323): include('C:\\xampp\\htdocs...')
+#3 {main} 
+2024-09-06 18:08:01: PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ':first_name,
+                middle_name = :middle_name,
+                la...' at line 2 in C:\xampp\htdocs\dumela-recruit\classes\Candidate.php:89
+Stack trace:
+#0 C:\xampp\htdocs\dumela-recruit\classes\Candidate.php(89): PDOStatement->execute()
+#1 C:\xampp\htdocs\dumela-recruit\public\dashboard\candidates\register.php(42): Candidate->create()
+#2 C:\xampp\htdocs\dumela-recruit\public\dashboard\index.php(323): include('C:\\xampp\\htdocs...')
+#3 {main} 
+2024-09-06 18:08:18: PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ':first_name,
+                middle_name = :middle_name,
+                la...' at line 2 in C:\xampp\htdocs\dumela-recruit\classes\Candidate.php:89
+Stack trace:
+#0 C:\xampp\htdocs\dumela-recruit\classes\Candidate.php(89): PDOStatement->execute()
+#1 C:\xampp\htdocs\dumela-recruit\public\dashboard\candidates\register.php(42): Candidate->create()
+#2 C:\xampp\htdocs\dumela-recruit\public\dashboard\index.php(323): include('C:\\xampp\\htdocs...')
+#3 {main} 
+2024-09-06 18:08:59: PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ':first_name,
+                middle_name = :middle_name,
+                la...' at line 2 in C:\xampp\htdocs\dumela-recruit\classes\Candidate.php:89
+Stack trace:
+#0 C:\xampp\htdocs\dumela-recruit\classes\Candidate.php(89): PDOStatement->execute()
+#1 C:\xampp\htdocs\dumela-recruit\public\dashboard\candidates\register.php(42): Candidate->create()
+#2 C:\xampp\htdocs\dumela-recruit\public\dashboard\index.php(323): include('C:\\xampp\\htdocs...')
+#3 {main} 
+2024-09-06 18:09:12: PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ':first_name,
+                middle_name = :middle_name,
+                la...' at line 2 in C:\xampp\htdocs\dumela-recruit\classes\Candidate.php:89
+Stack trace:
+#0 C:\xampp\htdocs\dumela-recruit\classes\Candidate.php(89): PDOStatement->execute()
+#1 C:\xampp\htdocs\dumela-recruit\public\dashboard\candidates\register.php(42): Candidate->create()
+#2 C:\xampp\htdocs\dumela-recruit\public\dashboard\index.php(323): include('C:\\xampp\\htdocs...')
+#3 {main} 
+2024-09-06 18:09:45: PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ':first_name,
+                middle_name = :middle_name,
+                la...' at line 2 in C:\xampp\htdocs\dumela-recruit\classes\Candidate.php:89
+Stack trace:
+#0 C:\xampp\htdocs\dumela-recruit\classes\Candidate.php(89): PDOStatement->execute()
+#1 C:\xampp\htdocs\dumela-recruit\public\dashboard\candidates\register.php(42): Candidate->create()
+#2 C:\xampp\htdocs\dumela-recruit\public\dashboard\index.php(323): include('C:\\xampp\\htdocs...')
+#3 {main} 
+2024-09-06 18:10:47: Something went wrong while creating a company in the database! 
+2024-09-06 18:10:47: Something went wrong while registering a company! 
+2024-09-06 18:13:38: PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ':first_name,
+                middle_name = :middle_name,
+                la...' at line 2 in C:\xampp\htdocs\dumela-recruit\classes\Candidate.php:89
+Stack trace:
+#0 C:\xampp\htdocs\dumela-recruit\classes\Candidate.php(89): PDOStatement->execute()
+#1 C:\xampp\htdocs\dumela-recruit\public\dashboard\candidates\register.php(42): Candidate->create()
+#2 C:\xampp\htdocs\dumela-recruit\public\dashboard\index.php(323): include('C:\\xampp\\htdocs...')
+#3 {main} 
+2024-09-06 18:16:24: PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ':first_name,
+                middle_name = :middle_name,
+                la...' at line 2 in C:\xampp\htdocs\dumela-recruit\classes\Candidate.php:89
+Stack trace:
+#0 C:\xampp\htdocs\dumela-recruit\classes\Candidate.php(89): PDOStatement->execute()
+#1 C:\xampp\htdocs\dumela-recruit\public\dashboard\candidates\register.php(42): Candidate->create()
+#2 C:\xampp\htdocs\dumela-recruit\public\dashboard\index.php(323): include('C:\\xampp\\htdocs...')
+#3 {main} 
+2024-09-06 18:16:39: PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ':first_name,
+                middle_name = :middle_name,
+                la...' at line 2 in C:\xampp\htdocs\dumela-recruit\classes\Candidate.php:89
+Stack trace:
+#0 C:\xampp\htdocs\dumela-recruit\classes\Candidate.php(89): PDOStatement->execute()
+#1 C:\xampp\htdocs\dumela-recruit\public\dashboard\candidates\register.php(42): Candidate->create()
+#2 C:\xampp\htdocs\dumela-recruit\public\dashboard\index.php(323): include('C:\\xampp\\htdocs...')
+#3 {main} 
+2024-09-06 18:17:50: PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ':first_name,
+                middle_name = :middle_name,
+                la...' at line 2 in C:\xampp\htdocs\dumela-recruit\classes\Candidate.php:89
+Stack trace:
+#0 C:\xampp\htdocs\dumela-recruit\classes\Candidate.php(89): PDOStatement->execute()
+#1 C:\xampp\htdocs\dumela-recruit\public\dashboard\candidates\register.php(42): Candidate->create()
+#2 C:\xampp\htdocs\dumela-recruit\public\dashboard\index.php(323): include('C:\\xampp\\htdocs...')
+#3 {main} 
+2024-09-06 18:18:03: PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ':first_name,
+                middle_name = :middle_name,
+                la...' at line 2 in C:\xampp\htdocs\dumela-recruit\classes\Candidate.php:89
+Stack trace:
+#0 C:\xampp\htdocs\dumela-recruit\classes\Candidate.php(89): PDOStatement->execute()
+#1 C:\xampp\htdocs\dumela-recruit\public\dashboard\candidates\register.php(42): Candidate->create()
+#2 C:\xampp\htdocs\dumela-recruit\public\dashboard\index.php(323): include('C:\\xampp\\htdocs...')
+#3 {main} 
+2024-09-06 18:21:20: PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ':first_name,
+                middle_name = :middle_name,
+                la...' at line 2 in C:\xampp\htdocs\dumela-recruit\classes\Candidate.php:89
+Stack trace:
+#0 C:\xampp\htdocs\dumela-recruit\classes\Candidate.php(89): PDOStatement->execute()
+#1 C:\xampp\htdocs\dumela-recruit\public\dashboard\candidates\register.php(58): Candidate->create()
+#2 C:\xampp\htdocs\dumela-recruit\public\dashboard\index.php(323): include('C:\\xampp\\htdocs...')
+#3 {main} 
+2024-09-06 18:21:38: PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ':first_name,
+                middle_name = :middle_name,
+                la...' at line 2 in C:\xampp\htdocs\dumela-recruit\classes\Candidate.php:89
+Stack trace:
+#0 C:\xampp\htdocs\dumela-recruit\classes\Candidate.php(89): PDOStatement->execute()
+#1 C:\xampp\htdocs\dumela-recruit\public\dashboard\candidates\register.php(58): Candidate->create()
+#2 C:\xampp\htdocs\dumela-recruit\public\dashboard\index.php(323): include('C:\\xampp\\htdocs...')
+#3 {main} 
+2024-09-06 18:27:59: PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ':first_name,
+                middle_name = :middle_name,
+                la...' at line 2 in C:\xampp\htdocs\dumela-recruit\classes\Candidate.php:89
+Stack trace:
+#0 C:\xampp\htdocs\dumela-recruit\classes\Candidate.php(89): PDOStatement->execute()
+#1 C:\xampp\htdocs\dumela-recruit\public\dashboard\candidates\register.php(42): Candidate->create()
+#2 C:\xampp\htdocs\dumela-recruit\public\dashboard\index.php(323): include('C:\\xampp\\htdocs...')
+#3 {main} 
+2024-09-06 18:27:59:  
+2024-09-06 18:27:59: Something went wrong while registering a candidate! 
+2024-09-06 18:28:17: PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ':first_name,
+                middle_name = :middle_name,
+                la...' at line 2 in C:\xampp\htdocs\dumela-recruit\classes\Candidate.php:89
+Stack trace:
+#0 C:\xampp\htdocs\dumela-recruit\classes\Candidate.php(89): PDOStatement->execute()
+#1 C:\xampp\htdocs\dumela-recruit\public\dashboard\candidates\register.php(42): Candidate->create()
+#2 C:\xampp\htdocs\dumela-recruit\public\dashboard\index.php(323): include('C:\\xampp\\htdocs...')
+#3 {main} 
+2024-09-06 18:28:17:  
+2024-09-06 18:28:17: Something went wrong while registering a candidate! 
+2024-09-06 18:39:31: PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ':username, password = :password' at line 1 in C:\xampp\htdocs\dumela-recruit\classes\User.php:26
+Stack trace:
+#0 C:\xampp\htdocs\dumela-recruit\classes\User.php(26): PDOStatement->execute()
+#1 C:\xampp\htdocs\dumela-recruit\public\register.php(29): User->register()
+#2 {main} 
+2024-09-06 18:39:31: Something went wrong while creating a user in the database! 

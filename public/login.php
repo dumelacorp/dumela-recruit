@@ -14,21 +14,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if($user->login()) {
         $_SESSION['user_id'] = $user->id;
         $_SESSION['username'] = $user->username;
-        // $_SESSION['alert'] = [
-        //     'type' => 'success',
-        //     'message' => "You're now logged in."
-        // ];
         $_SESSION['alert']['type'] = 'success';
         $_SESSION['alert']['message'] = "You're now logged in.";
         header('Location: dashboard/index.php?page=list');
     } else {
-        // $_SESSION['alert'] = [
-        //     'type' => 'error',
-        //     'message' => "Log in failed."
-        // ];
         $_SESSION['alert']['type'] = 'error';
         $_SESSION['alert']['message'] = "Log in failed.";
         $timestamp = date('Y-m-d H:i:s'); 
+        error_log("$timestamp: $e \n", 3, 'dashboard/error_log'); 
         error_log("$timestamp: User Login Failed! \n", 3, 'dashboard/error_log'); 
     }
 }

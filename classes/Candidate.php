@@ -93,7 +93,8 @@ class Candidate {
             return false;
         }catch(PDOException $e){
             $timestamp = date('Y-m-d H:i:s'); 
-            error_log("$timestamp: Something went wrong while creating a candidate in the database! \n", 3, 'error_log'); 
+            error_log("$timestamp: $e \n", 3, 'error_log'); 
+            error_log("$timestamp: Something went wrong while creating a candidate in the database! \n", 3, 'error_log '); 
         }
     }
 
@@ -109,6 +110,7 @@ class Candidate {
             return $stmt;
         }catch(PDOException $e){
             $timestamp = date('Y-m-d H:i:s'); 
+            error_log("$timestamp: $e \n", 3, 'error_log'); 
             error_log("$timestamp: Something went wrong while reading a candidate from the database! \n", 3, 'error_log'); 
         }
     }
@@ -122,6 +124,7 @@ class Candidate {
             return $total_candidates['total'];
         }catch(PDOException $e){
             $timestamp = date('Y-m-d H:i:s'); 
+            error_log("$timestamp: $e \n", 3, 'error_log'); 
             error_log("$timestamp: Something went wrong while getting total number of candidates from the database! \n", 3, 'error_log'); 
         }
     }
@@ -142,6 +145,7 @@ class Candidate {
             return $row['total'];
         } catch (PDOException $e) {
             $timestamp = date('Y-m-d H:i:s'); 
+            error_log("$timestamp: $e \n", 3, 'error_log'); 
             error_log("$timestamp: Something went wrong while getting total number of candidates for search from the database! \n", 3, 'error_log'); 
         }
     }
@@ -159,6 +163,7 @@ class Candidate {
             return $candidate;
         } catch (PDOException $e) {
             $timestamp = date('Y-m-d H:i:s'); 
+            error_log("$timestamp: $e \n", 3, 'error_log'); 
             error_log("$timestamp: Something went wrong while getting candidate details by their Id from the database! \n", 3, 'error_log'); 
         }
     }
@@ -184,6 +189,7 @@ class Candidate {
             
         }catch(PDOException $e){
             $timestamp = date('Y-m-d H:i:s'); 
+            error_log("$timestamp: $e \n", 3, 'error_log'); 
             error_log("$timestamp: Something went wrong while searching for candidate with multiple paramaters in the database! \n", 3, 'error_log'); 
         }
     }
@@ -256,6 +262,7 @@ class Candidate {
             return false;
         }catch(PDOException $e){
             $timestamp = date('Y-m-d H:i:s'); 
+            error_log("$timestamp: $e \n", 3, 'error_log'); 
             error_log("$timestamp: Something went wrong while updating candidate in the database! \n", 3, 'error_log'); 
         }
     }
@@ -276,6 +283,7 @@ class Candidate {
             return false;
         }catch(PDOException $e){
             $timestamp = date('Y-m-d H:i:s'); 
+            error_log("$timestamp: $e \n", 3, 'error_log'); 
             error_log("$timestamp: Something went wrong while removing candidate from the database! \n", 3, 'error_log'); 
         }
     }

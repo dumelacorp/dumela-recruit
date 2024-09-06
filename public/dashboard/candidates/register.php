@@ -39,16 +39,34 @@
 
             if (move_uploaded_file($_FILES["resume"]["tmp_name"], $target_file)) {
                 try{
-                    $candidate->create();
-                    echo("<meta http-equiv='refresh' content='.5'>");
-                    $_SESSION['alert']['type'] = 'success';
-                    $_SESSION['alert']['message'] = "Candidate created";
+                    if($candidate->create()){
+                        echo("<meta http-equiv='refresh' content='.5'>");
+                        $_SESSION['alert']['type'] = 'success';
+                        $_SESSION['alert']['message'] = "Candidate created";
+                    } else {
+                        echo("<meta http-equiv='refresh' content='.5'>");
+                        $_SESSION['alert']['type'] = 'error';
+                        $_SESSION['alert']['message'] = "Something went wrong!";
+                        $timestamp = date('Y-m-d H:i:s'); 
+                        error_log("$timestamp: $e \n", 3, 'error_log'); 
+                        error_log("$timestamp: Something went wrong while registering a candidate! \n", 3, 'error_log'); 
+                    }
+            
                 }catch(PDOException $e){
+                    echo("<meta http-equiv='refresh' content='.5'>");
                     $_SESSION['alert']['type'] = 'error';
                     $_SESSION['alert']['message'] = "Something went wrong!";
                     $timestamp = date('Y-m-d H:i:s'); 
+                    error_log("$timestamp: $e \n", 3, 'error_log'); 
                     error_log("$timestamp: Something went wrong while registering a candidate! \n", 3, 'error_log'); 
                 }
+            } else {
+                echo("<meta http-equiv='refresh' content='.5'>");
+                $_SESSION['alert']['type'] = 'error';
+                $_SESSION['alert']['message'] = "Something went wrong with file upload!";
+                $timestamp = date('Y-m-d H:i:s');
+                error_log("$timestamp: $e \n", 3, 'error_log'); 
+                error_log("$timestamp: Something went wrong with file upload! \n", 3, 'error_log'); 
             }
         }
     }

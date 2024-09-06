@@ -32,6 +32,7 @@
             } else {
                 echo "Failed to create company";
                 $timestamp = date('Y-m-d H:i:s'); 
+                error_log("$timestamp: $e \n", 3, 'error_log'); 
                 error_log("$timestamp: Something went wrong while registering a company! \n", 3, 'error_log'); 
             }
         }

@@ -61,6 +61,7 @@ class Company {
             return false;
         }catch(PDOException $e){
             $timestamp = date('Y-m-d H:i:s'); 
+            error_log("$timestamp: $e \n", 3, 'error_log'); 
             error_log("$timestamp: Something went wrong while creating a company in the database! \n", 3, 'error_log'); 
         }
     }
@@ -75,6 +76,7 @@ class Company {
             return $stmt;
         }catch(PDOException $e){
             $timestamp = date('Y-m-d H:i:s'); 
+            error_log("$timestamp: $e \n", 3, 'error_log'); 
             error_log("$timestamp: Something went wrong while reading a company from the database! \n", 3, 'error_log'); 
         }
     }
@@ -88,6 +90,7 @@ class Company {
             return $total_candidates['total'];
         }catch(PDOException $e){
             $timestamp = date('Y-m-d H:i:s'); 
+            error_log("$timestamp: $e \n", 3, 'error_log'); 
             error_log("$timestamp: Something went wrong while getting total number of companies from the database! \n", 3, 'error_log');
         }
     }
@@ -108,6 +111,7 @@ class Company {
             return $row['total'];
         } catch (PDOException $e) {
             $timestamp = date('Y-m-d H:i:s'); 
+            error_log("$timestamp: $e \n", 3, 'error_log'); 
             error_log("$timestamp: Something went wrong while getting total number of companies for search from the database! \n", 3, 'error_log'); 
         }
     }
@@ -124,6 +128,7 @@ class Company {
             return $candidate;
         } catch (PDOException $e) {
             $timestamp = date('Y-m-d H:i:s'); 
+            error_log("$timestamp: $e \n", 3, 'error_log'); 
             error_log("$timestamp: Something went wrong while getting company details by their Id from the database! \n", 3, 'error_log');
         }
     }
@@ -149,6 +154,7 @@ class Company {
             
         }catch(PDOException $e){
             $timestamp = date('Y-m-d H:i:s'); 
+            error_log("$timestamp: $e \n", 3, 'error_log'); 
             error_log("$timestamp: Something went wrong while searching for company with multiple paramaters in the database! \n", 3, 'error_log'); 
         }
     }
@@ -197,6 +203,7 @@ class Company {
             return false;
         }catch(PDOException $e){
             $timestamp = date('Y-m-d H:i:s'); 
+            error_log("$timestamp: $e \n", 3, 'error_log'); 
             error_log("$timestamp: Something went wrong while updating company in the database! \n", 3, 'error_log'); 
         }
     }
@@ -217,6 +224,7 @@ class Company {
             return false;
         }catch(PDOException $e){
             $timestamp = date('Y-m-d H:i:s'); 
+            error_log("$timestamp: $e \n", 3, 'error_log'); 
             error_log("$timestamp: Something went wrong while removing company from the database! \n", 3, 'error_log'); 
         }
     }

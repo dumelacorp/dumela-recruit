@@ -31,6 +31,7 @@
                     $_SESSION['alert']['type'] = 'error';
                     $_SESSION['alert']['message'] = "Something went wrong. We couldn't delete the data.";
                     $timestamp = date('Y-m-d H:i:s'); 
+                    error_log("$timestamp: $e \n", 3, 'error_log'); 
                     error_log("$timestamp: Something went wrong while deleting a company! \n", 3, 'error_log'); 
                 }
             }

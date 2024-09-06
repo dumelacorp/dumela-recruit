@@ -20,8 +20,8 @@ class User {
             $this->username = htmlspecialchars(strip_tags($this->username));
             $this->password = password_hash($this->password, PASSWORD_BCRYPT);
 
-            // $stmt->bindParam(':username', $this->username);
-            // $stmt->bindParam(':password', $this->password);
+            $stmt->bindParam(':username', $this->username);
+            $stmt->bindParam(':password', $this->password);
 
             if($stmt->execute()) {
                 return true;

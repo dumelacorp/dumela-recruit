@@ -475,3 +475,4 @@ composer.lock
 
 # Exclude the config file
 database.php
+upload/*

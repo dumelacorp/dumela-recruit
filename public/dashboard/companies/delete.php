@@ -1,38 +1,38 @@
 <?php 
     // session_start();
 
-    $page = 'candidates/delete.php';
+    $page = 'companies/delete.php';
 
     include_once '../../config/Database.php';
-    include_once '../../classes/Candidate.php';
+    include_once '../../classes/Company.php';
 
     $database = new Database();
     $db = $database->connect();
-    $candidate = new Candidate($db);
+    $company = new Company($db);
 
     if (isset($_GET['id'])) {
         $id = $_GET['id'];
-        $row = $candidate->getCandidateDetailsById($id);
+        $row = $company->getCompanyDetailsById($id);
     }
 
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if(isset($_POST['candidate_action'])) {
-            if($_POST['candidate_action'] == 'delete'){
-                $candidate->id = $_POST['id'];
+        if(isset($_POST['company_action'])) {
+            if($_POST['company_action'] == 'delete'){
+                $company->id = $_POST['id'];
                 
                 try{
-                    $candidate->delete();
+                    $company->delete();
                     echo("<meta http-equiv='refresh' content='.5'>");
                     $_SESSION['alert']['type'] = 'success';
-                    $_SESSION['alert']['message'] = "Candidate data has been successfully deleted.";
-                    echo "<script>window.location.href='../dashboard/index.php?page=list';</script>";
+                    $_SESSION['alert']['message'] = "Company data has been successfully deleted.";
+                    echo "<script>window.location.href='../dashboard/index.php?company=list';</script>";
                     exit;
                 }catch(PDOException $e){
                     $_SESSION['alert']['type'] = 'error';
                     $_SESSION['alert']['message'] = "Something went wrong. We couldn't delete the data.";
                     $timestamp = date('Y-m-d H:i:s'); 
                     error_log("$timestamp: $e \n", 3, 'error_log'); 
-                    error_log("$timestamp: Something went wrong while deleting a candidate! \n", 3, 'error_log'); 
+                    error_log("$timestamp: Something went wrong while deleting a company! \n", 3, 'error_log'); 
                 }
             }
         }
@@ -49,33 +49,16 @@
 </div>
 
     <form method="post" enctype="multipart/form-data">
-        <input type="hidden" name="candidate_action" value="delete">
+        <input type="hidden" name="company_action" value="delete">
         <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-        <input type="hidden" name="existing_resume" value="<?php echo $row['resume']; ?>">
 
         <div class="row">
             <div class="col-md-6 col-sm-12">
                 <div class="form-group">
-                    <label>First Name</label>
-                    <input type="text" name="first_name" class="form-control" value="<?php echo $row['first_name']; ?>" readonly>
+                    <label>Company Name</label>
+                    <input type="text" name="company_name" class="form-control" value="<?php echo $row['company_name']; ?>" readonly>
                 </div>
             </div>
-            <div class="col-md-6 col-sm-12">
-                <div class="form-group">
-                    <label>Last Name</label>
-                    <input type="text" name="last_name" class="form-control" value="<?php echo $row['last_name']; ?>" readonly>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <div class="form-group">
-                    <label>Middle Name</label>
-                    <input type="text" name="middle_name" class="form-control" value="<?php echo $row['middle_name']; ?>" readonly>
-                </div>
-            </div>
-
             <div class="col-md-6 col-sm-12">
                 <div class="form-group">
                     <label>Email</label>
@@ -111,8 +94,8 @@
             </div>
             <div class="col-md-6 col-sm-12">
                 <div class="form-group">
-                    <label>Job Title</label>
-                    <input type="text" name="job_title" class="form-control" value="<?php echo $row['job_title']; ?>" readonly>
+                    <label>Specialization</label>
+                    <input type="text" name="specialization" class="form-control" value="<?php echo $row['specialization']; ?>" readonly>
                 </div>
             </div>
         </div> 
@@ -120,52 +103,24 @@
         <div class="row">
             <div class="col-md-6 col-sm-12">
                 <div class="form-group">
-                    <label>Level</label>
-                    <select name="level" class="form-control" readonly>
-                        <option value="<?php echo $row['level']; ?>"><?php echo $row['level']; ?></option>
+                    <label>Contact</label>
+                    <select name="contact" class="form-control" readonly>
+                        <option value="<?php echo $row['contact']; ?>"><?php echo $row['contact']; ?></option>
                     </select>
                 </div>
             </div>
             <div class="col-md-6 col-sm-12">
                 <div class="form-group">
-                    <label>Resume</label>
-                    <input type="file" name="resume" class="form-control">
+                    <label>Contact Person</label>
+                    <select name="contact_person" class="form-control" readonly>
+                        <option value="<?php echo $row['contact_person']; ?>"><?php echo $row['contact_person']; ?></option>
+                    </select>
                 </div>
             </div>
         </div>
         
-        <div class="form-row">        
-                <div class="form-group col-md-3 col-sm-6">
-                    <label>Rate</label>
-                    <input type="text" name="rate" class="form-control" value="<?php echo $row['rate']; ?>" readonly>
-                </div>
-                <div class="form-group col-md-3 col-sm-6">
-                    <label>Per</label>
-                    <select name="rate_period" class="form-control" readonly>
-                        <option value="<?php echo $row['rate_period']; ?>"><?php echo $row['rate_period']; ?></option>
-                    </select>
-                </div>
-                <div class="form-group col-md-6 col-sm-12">
-                    <label>Status</label>
-                    <select name="status" class="form-control" readonly>
-                        <option value="<?php echo $row['status']; ?>"><?php echo $row['status']; ?></option>
-                    </select>
-                </div>
-        </div>
 
         <div class="form-row">
-                <div class="form-group col-md-3 col-sm-6">
-                    <label>Outsource Rate</label>
-                    <input type="text" name="outsource_rate" class="form-control" value="<?php echo $row['outsource_rate']; ?>" readonly>
-                </div>
-
-                <div class="form-group col-md-3 col-sm-6">
-                    <label>Per</label>
-                    <select name="outsource_rate_period" class="form-control" readonly>
-                      <option value="<?php echo $row['outsource_rate_period']; ?>"><?php echo $row['outsource_rate_period']; ?></option>
-                    </select>
-                </div>
-            <!-- </div> -->
             <div class="col-md-6 col-sm-12">
                 <br><br>
                 <label class='text-danger'><strong>Do you still wish to delete this data? Click the <em>Delete</em> button if you are sure.</strong></label>
@@ -176,7 +131,7 @@
             <div class="col-md-6 cl-sm-12">
                 <div class="form-group">
                     <br>
-                        <a href="?page=list" class="btn btn-primary btn-block" role="button">Back</a>
+                        <a href="?company=list" class="btn btn-primary btn-block" role="button">Back</a>
                 </div>
             </div>
             <div class="col-md-6 col-sm-12">

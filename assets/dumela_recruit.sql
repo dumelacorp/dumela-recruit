@@ -78,9 +78,31 @@ INSERT INTO `users` (`id`, `username`, `password`, `created_at`) VALUES
 (6, 'y@dumelacorp.com', '$2y$10$P7yKzc.oQmvw5JhG8DaKR.1ZltLkWoH6FkGyXe8X0uM.hArLbCD5e', '2024-06-19 20:22:33'),
 (8, 'ayo@dumelacorp.com', '$2y$10$ZDt2KPY5kcMbbGkgu/ZzgObTx3GkLESgyl/Agz/oJ.ZQ71pSoG4i6', '2024-06-21 04:03:35');
 
+
+-- Table structure for table `companies`
+--
+
+CREATE TABLE `companies` (
+  `id` int(11) NOT NULL,
+  `company_name` varchar(50) NOT NULL,
+  `company_email` varchar(100) NOT NULL,
+  `country` varchar(50) NOT NULL,
+  `state` varchar(50) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `specialization` varchar(50) NOT NULL,
+  `contact` varchar(50) NOT NULL,
+  `contact_person` varchar(50) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Indexes for dumped tables
 --
+
+-- Indexes for table `companies`
+--
+ALTER TABLE `companies`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `candidates`
@@ -98,6 +120,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `companies`
+--
+ALTER TABLE `companies`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `candidates`

@@ -1,62 +1,45 @@
 <?php 
     // session_start();
 
-    $page = 'candidates/update.php';
+    $page = 'companies/update.php';
 
     include_once '../../config/Database.php';
-    include_once '../../classes/Candidate.php';
+    include_once '../../classes/Company.php';
 
     $database = new Database();
     $db = $database->connect();
     $user = new User($db);
-    $candidate = new Candidate($db);
+    $company = new Company($db);
 
     if (isset($_GET['id'])) {
         $id = $_GET['id'];
-        $row = $candidate->getCandidateDetailsById($id);
+        $row = $company->getCompanyDetailsById($id);
     }
 
     if($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if(isset($_POST['candidate_action'])) {
-            if($_POST['candidate_action'] == 'update'){
-                $candidate->id = $_POST['id'];
-                $candidate->first_name = $_POST['first_name'];
-                $candidate->middle_name = $_POST['middle_name'];
-                $candidate->last_name = $_POST['last_name'];
-                $candidate->email = $_POST['email'];
-                $candidate->country = $_POST['country'];
-                $candidate->state = $_POST['state'];
-                $candidate->city = $_POST['city'];
-                $candidate->job_title = $_POST['job_title'];
-                $candidate->level = $_POST['level'];
-                $candidate->resume = $_FILES['resume']['name'];
-
-                $candidate->rate = $_POST['rate'];
-                $candidate->rate_period = $_POST['rate_period'];
-                $candidate->status = $_POST['status'];
-                $candidate->outsource_rate = $_POST['outsource_rate'];
-                $candidate->outsource_rate_period = $_POST['outsource_rate_period'];
-    
-                $target_dir = "../../uploads/";
-                // Handle file upload
-                if ($_FILES['resume']['name']) {
-                    $target_file = $target_dir . basename($_FILES["resume"]["name"]);
-                    move_uploaded_file($_FILES["resume"]["tmp_name"], $target_file);
-                } else {
-                    $candidate->resume = $_POST['existing_resume'];
-                }
+        if(isset($_POST['company_action'])) {
+            if($_POST['company_action'] == 'update'){
+                $company->id = $_POST['id'];
+                $company->company_name = $_POST['company_name'];
+                $company->email = $_POST['email'];
+                $company->country = $_POST['country'];
+                $company->state = $_POST['state'];
+                $company->city = $_POST['city'];
+                $company->specialization = $_POST['specialization'];
+                $company->contact = $_POST['contact'];
+                $company->contact_person = $_POST['contact_person'];
                 
                 try{
-                    $candidate->update();
+                    $company->update();
                     echo("<meta http-equiv='refresh' content='.5'>");
                     $_SESSION['alert']['type'] = 'success';
-                    $_SESSION['alert']['message'] = "Candidate data has been updated.";
+                    $_SESSION['alert']['message'] = "Company data has been updated.";
                 }catch(PDOException $e){
                     $_SESSION['alert']['type'] = 'error';
                     $_SESSION['alert']['message'] = "Something went wrong. Couldn't update the data.";
                     $timestamp = date('Y-m-d H:i:s'); 
                     error_log("$timestamp: $e \n", 3, 'error_log'); 
-                    error_log("$timestamp: Something went wrong while updating a candidate! \n", 3, 'error_log'); 
+                    error_log("$timestamp: Something went wrong while updating a company! \n", 3, 'error_log'); 
                 }
             }
         }
@@ -67,33 +50,16 @@
 
 
     <form method="post" enctype="multipart/form-data">
-        <input type="hidden" name="candidate_action" value="update">
+        <input type="hidden" name="company_action" value="update">
         <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-        <input type="hidden" name="existing_resume" value="<?php echo $row['resume']; ?>">
 
         <div class="row">
             <div class="col-md-6 col-sm-12">
                 <div class="form-group">
-                    <label>First Name</label>
-                    <input type="text" name="first_name" class="form-control" value="<?php echo $row['first_name']; ?>" required>
+                    <label>Company Name</label>
+                    <input type="text" name="company_name" class="form-control" value="<?php echo $row['company_name']; ?>" required>
                 </div>
             </div>
-            <div class="col-md-6 col-sm-12">
-                <div class="form-group">
-                    <label>Last Name</label>
-                    <input type="text" name="last_name" class="form-control" value="<?php echo $row['last_name']; ?>" required>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <div class="form-group">
-                    <label>Middle Name</label>
-                    <input type="text" name="middle_name" class="form-control" value="<?php echo $row['middle_name']; ?>">
-                </div>
-            </div>
-
             <div class="col-md-6 col-sm-12">
                 <div class="form-group">
                     <label>Email</label>
@@ -106,6 +72,7 @@
             <div class="col-md-6 col-sm-12">
                 <div class="form-group">
                     <label for='country'>Country</label>
+                    <!-- <input type="text" name="country" class="form-control" required> -->
                     <select id="country" name="country" class="form-control" required>
                         <option value="<?php echo $row['country']; ?>"><?php echo $row['country']; ?></option>
                         <option value="">Select a country</option>
@@ -324,87 +291,35 @@
             </div>
             <div class="col-md-6 col-sm-12">
                 <div class="form-group">
-                    <label>Job Title</label>
-                    <input type="text" name="job_title" class="form-control" value="<?php echo $row['job_title']; ?>" required>
+                    <label>Specialization</label>
+                    <input type="text" name="specialization" class="form-control" value="<?php echo $row['specialization']; ?>" required>
                 </div>
             </div>
         </div> 
 
         <div class="row">
             <div class="col-md-6 col-sm-12">
-                <div class="form-group">
-                    <label>Level</label>
-                    <select name="level" class="form-control" required>
-                        <option value="Entry" <?php echo ($row['level'] == 'Entry') ? 'selected' : ''; ?>>Entry</option>
-                        <option value="Junior" <?php echo ($row['level'] == 'Junior') ? 'selected' : ''; ?>>Junior</option>
-                        <option value="Intermediate" <?php echo ($row['level'] == 'Intermediate') ? 'selected' : ''; ?>>Intermediate</option>
-                        <option value="Senior" <?php echo ($row['level'] == 'Senior') ? 'selected' : ''; ?>>Senior</option>
-                    </select>
+            <div class="form-group">
+                    <label>Contact</label>
+                    <input type="tel" name="contact" class="form-control" value="<?php echo $row['contact']; ?>" required>
                 </div>
             </div>
             <div class="col-md-6 col-sm-12">
                 <div class="form-group">
-                    <label>Resume</label>
-                    <input type="file" name="resume" class="form-control">
+                    <label>Contact Person</label>
+                    <input type="text" name="contact_person" class="form-control" value="<?php echo $row['contact_person']; ?>" required>
                 </div>
             </div>
         </div>
         
-        <div class="form-row">
-            <!-- <div class="col-md-6 col-sm-12"> -->           
-                <div class="form-group col-md-3 col-sm-6">
-                    <label>Rate (NGN)</label>
-                    <input type="text" name="rate" class="form-control" value="<?php echo $row['rate']; ?>" required>
-                </div>
-                <div class="form-group col-md-3 col-sm-6">
-                    <label>Per</label>
-                    <select name="rate_period" class="form-control" required>
-                        <option value="Hour" <?php echo ($row['rate_period'] == 'Hour') ? 'selected' : ''; ?>>Hour</option>
-                        <option value="Day" <?php echo ($row['rate_period'] == 'Day') ? 'selected' : ''; ?>>Day</option>
-                        <option value="Week" <?php echo ($row['rate_period'] == 'Week') ? 'selected' : ''; ?>>Week</option>
-                        <option value="Month" <?php echo ($row['rate_period'] == 'Month') ? 'selected' : ''; ?>>Month</option>
-                        <option value="Year" <?php echo ($row['rate_period'] == 'Year') ? 'selected' : ''; ?>>Year</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-6 col-sm-12">
-                    <label>Status</label>
-                    <select name="status" class="form-control" required>
-                        <option value="Not Interviewed" <?php echo ($row['status'] == 'Not Interviewed') ? 'selected' : ''; ?>>Not Interviewed</option>
-                        <option value="Interviewed (Not Selected)" <?php echo ($row['status'] == 'Interviewed (Not Selected)') ? 'selected' : ''; ?>>Interviewed (Not Selected)</option>
-                        <option value="Interviewed (Selected)" <?php echo ($row['status'] == 'Interviewed (Selected)') ? 'selected' : ''; ?>>Interviewed (Selected)</option>
-                    </select>
-                </div>
-        </div>
 
-        <div class="form-row">
-            <!-- <div class="col-md-6 col-sm-12"> -->
-                <div class="form-group col-md-3 col-sm-6">
-                    <label>Outsource Rate (NGN)</label>
-                    <input type="text" name="outsource_rate" class="form-control" value="<?php echo $row['outsource_rate']; ?>" required>
-                </div>
-
-                <div class="form-group col-md-3 col-sm-6">
-                    <label>Per</label>
-                    <select name="outsource_rate_period" class="form-control" required>
-                        <option value="Entry" <?php echo ($row['outsource_rate_period'] == 'Hour') ? 'selected' : ''; ?>>Hour</option>
-                        <option value="Day" <?php echo ($row['outsource_rate_period'] == 'Day') ? 'selected' : ''; ?>>Day</option>
-                        <option value="Week" <?php echo ($row['outsource_rate_period'] == 'Week') ? 'selected' : ''; ?>>Week</option>
-                        <option value="Month" <?php echo ($row['outsource_rate_period'] == 'Month') ? 'selected' : ''; ?>>Month</option>
-                        <option value="Year" <?php echo ($row['rate_period'] == 'Year') ? 'selected' : ''; ?>>Year</option>
-                    </select>
-                </div>
-            <!-- </div> -->
-            <div class="col-md-6 col-sm-12">
-
-            </div>
-        </div>
 
         <div class="row">
             <div class="col-md-6 cl-sm-12">
                 <div class="form-group">
                     <br>
                     <!-- <button type="button"> -->
-                        <a href="?page=list" class="btn btn-primary btn-block" role="button">Back</a>
+                        <a href="?company=list" class="btn btn-primary btn-block" role="button">Back</a>
                     <!-- </button> -->
                 </div>
             </div>

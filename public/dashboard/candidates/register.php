@@ -1,8 +1,8 @@
 <?php 
     // session_start();
+    // $filePath = 'error_log'; // Replace with your actual file path
 
-    $page = 'candidates/register.php';
-
+    
     if(!isset($_SESSION['user_id'])) {
         header('Location: ../login.php');
         exit;
@@ -39,14 +39,34 @@
 
             if (move_uploaded_file($_FILES["resume"]["tmp_name"], $target_file)) {
                 try{
-                    $candidate->create();
-                    echo("<meta http-equiv='refresh' content='.5'>");
-                    $_SESSION['alert']['type'] = 'success';
-                    $_SESSION['alert']['message'] = "Candidate created";
+                    if($candidate->create()){
+                        echo("<meta http-equiv='refresh' content='.5'>");
+                        $_SESSION['alert']['type'] = 'success';
+                        $_SESSION['alert']['message'] = "Candidate created";
+                    } else {
+                        echo("<meta http-equiv='refresh' content='.5'>");
+                        $_SESSION['alert']['type'] = 'error';
+                        $_SESSION['alert']['message'] = "Something went wrong!";
+                        $timestamp = date('Y-m-d H:i:s'); 
+                        error_log("$timestamp: $e \n", 3, 'error_log'); 
+                        error_log("$timestamp: Something went wrong while registering a candidate! \n", 3, 'error_log'); 
+                    }
+            
                 }catch(PDOException $e){
+                    echo("<meta http-equiv='refresh' content='.5'>");
                     $_SESSION['alert']['type'] = 'error';
-                    $_SESSION['alert']['message'] = "Something went wrong. We couldn't save the data.";
+                    $_SESSION['alert']['message'] = "Something went wrong!";
+                    $timestamp = date('Y-m-d H:i:s'); 
+                    error_log("$timestamp: $e \n", 3, 'error_log'); 
+                    error_log("$timestamp: Something went wrong while registering a candidate! \n", 3, 'error_log'); 
                 }
+            } else {
+                echo("<meta http-equiv='refresh' content='.5'>");
+                $_SESSION['alert']['type'] = 'error';
+                $_SESSION['alert']['message'] = "Something went wrong with file upload!";
+                $timestamp = date('Y-m-d H:i:s');
+                error_log("$timestamp: $e \n", 3, 'error_log'); 
+                error_log("$timestamp: Something went wrong with file upload! \n", 3, 'error_log'); 
             }
         }
     }
@@ -93,7 +113,6 @@
             <div class="col-md-6 col-sm-12">
                 <div class="form-group">
                     <label for='country'>Country</label>
-                    <!-- <input type="text" name="country" class="form-control" required> -->
                     <select id="country" name="country" class="form-control" required>
                         <option value="">Select a country</option>
                         <option value="Afghanistan">Afghanistan</option>
@@ -337,27 +356,7 @@
             </div>
         </div> 
 
-        <!-- <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <div class="form-group">
-                    <label>Rate</label>
-                    <input type="text" name="rate" class="form-control" required>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <div class="form-group">
-                   <label>Status</label>
-                    <select name="status" class="form-control" required>
-                        <option value="Not Interviewed">Not Interviewed</option>
-                        <option value="Interviewed (Not Selected)">Interviewed (Not Selected)</option>
-                        <option value="Interviewed (Selected)">Interviewed (Selected)</option>    
-                    </select>
-                </div>
-            </div>
-        </div>    -->
-
-        <div class="form-row">
-            <!-- <div class="col-md-6 col-sm-12"> -->           
+        <div class="form-row">        
                 <div class="form-group col-md-3 col-sm-6">
                     <label>Rate (NGN)</label>
                     <input type="number" name="rate" placeholder='0.00' min='0' value='0.00' step='0.01' class="form-control" required>
@@ -383,7 +382,6 @@
         </div>
 
         <div class="form-row">
-            <!-- <div class="col-md-6 col-sm-12"> -->
                 <div class="form-group col-md-3 col-sm-6">
                     <label>Outsource Rate (NGN)</label>
                     <input type="number" step='0.01' placeholder='0.00' value='0.00' name="outsource_rate" class="form-control" required>
@@ -399,23 +397,10 @@
                         <option value="Year">Year</option>
                     </select>
                 </div>
-            <!-- </div> -->
             <div class="col-md-6 col-sm-12">
 
             </div>
         </div>
-
-        <!-- <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <div class="form-group">
-                    <label>Outsource Rate</label>
-                    <input type="text" name="outsource_rate" class="form-control" required>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12">
-
-            </div>
-        </div>   -->
 
         <div class="row">
             <div class="col-sm-12">

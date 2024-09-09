@@ -1,7 +1,7 @@
 <?php
     // session_start();
 
-    $current_url = $_SERVER['PHP_SELF'] . '?page=list';
+    $current_url = $_SERVER['PHP_SELF'] . '?company=list';
 
     if(!isset($_SESSION['user_id'])) {
         header('Location: ../login.php');
@@ -9,45 +9,45 @@
     }
 
     include_once '../../config/Database.php';
-    include_once '../../classes/Candidate.php';
+    include_once '../../classes/Company.php';
 
     $database = new Database();
     $db = $database->connect();
-    $candidate = new Candidate($db);
+    $company = new Company($db);
     
 
 
     
-    $total_candidates = $candidate->getTotalCandidates();
+    $total_companies = $company->getTotalCompanies();
 
-    $candidates_per_page = 10;
+    $companies_per_page = 10;
     $current_page = isset($_GET['current_page']) ? max(1, intval($_GET['current_page'])) : 1;
-    $offset = ($current_page - 1) * $candidates_per_page;
+    $offset = ($current_page - 1) * $companies_per_page;
 
     if (isset($_GET['search_text'])) {
         $search_string = $_GET['search_text'];
-        $candidates = $candidate->findCandidatesByMultipleParameters($search_string, $candidates_per_page, $offset);
-        $total_candidates = $candidate->getTotalCandidatesForSearch($search_string);
+        $companies = $company->findCompaniesByMultipleParameters($search_string, $companies_per_page, $offset);
+        $total_companies = $company->getTotalCompaniesForSearch($search_string);
     } else {
-        $candidates = $candidate->read($candidates_per_page, $offset);
-        $total_candidates = $candidate->getTotalCandidates();
+        $companies = $company->read($companies_per_page, $offset);
+        $total_companies = $company->getTotalCompanies();
     }
 
-    $total_pages = max(1, ceil($total_candidates / $candidates_per_page));
+    $total_pages = max(1, ceil($total_companies / $companies_per_page));
     $current_page = min($current_page, $total_pages); // Ensure page doesn't exceed total pages
 
     // Determine the base URL
-    $base_url = 'index.php?page=list';
+    $base_url = 'index.php?company=list';
 
 ?>
 <!-- Topbar Search -->
 <div class="container-fluid"> <div class="row">
         <div class="col-12"> 
             <form class="navbar-search border border-primary rounded" method='get' action="index.php">
-                <input type="hidden" name="page" value="list">
+                <input type="hidden" name="company" value="list">
                 <div class="input-group">
                     <input type="text" id="search" name="search_text" class="form-control bg-light border-0 small" 
-                          placeholder="Search for candidate by first name, last name, country, job title, or level" 
+                          placeholder="Search for company by company name, email, country, city, specialization, or level" 
                           value="<?php echo isset($_GET['search_text']) ? htmlspecialchars($_GET['search_text']) : ''; ?>" 
                           aria-label="Search" aria-describedby="basic-addon2">
                     <div class="input-group-append">
@@ -67,42 +67,41 @@
   <table class="table table-striped table-hover">
     <thead class="thead-light">
       <tr>
-        <th scope="col">First Name</th>
-        <th scope="col">Last Name</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
         <th scope="col">Country</th>
         <th scope="col">State</th>
-        <th scope="col">Job Title</th>
-        <th scope="col">Level</th>
-        <th scope="col">Resume</th>
+        <th scope="col">City</th>
+        <th scope="col">Specialization</th>
+        <th scope="col">Contact</th>
+        <th scope="col">Contact Person</th>
         <th scope="col">Actions</th>
       </tr>
     </thead>
     <tbody>
-      <?php while($row = $candidates->fetch(PDO::FETCH_ASSOC)): ?>
+      <?php while($row = $companies->fetch(PDO::FETCH_ASSOC)): ?>
       <tr>
-        <td><?php echo htmlspecialchars($row['first_name']); ?></td>
-        <td><?php echo htmlspecialchars($row['last_name']); ?></td>
+        <td><?php echo htmlspecialchars($row['company_name']); ?></td>
+        <td><?php echo htmlspecialchars($row['email']); ?></td>
         <td><?php echo htmlspecialchars($row['country']); ?></td>
         <td><?php echo htmlspecialchars($row['state']); ?></td>
-        <td><?php echo htmlspecialchars($row['job_title']); ?></td>
-        <td><?php echo htmlspecialchars($row['level']); ?></td>
-        <td>
-            <a href="../../uploads/<?php echo $row['resume']; ?>" target="_blank" class="btn btn-outline-primary btn-sm">View</a>
-        </td>
+        <td><?php echo htmlspecialchars($row['city']); ?></td>
+        <td><?php echo htmlspecialchars($row['specialization']); ?></td>
+        <td><?php echo htmlspecialchars($row['contact']); ?></td>
+        <td><?php echo htmlspecialchars($row['contact_person']); ?></td>
+    
         <td>
           <div class="d-flex flex-column flex-sm-row">
             <form method="get" class="mb-2 mb-sm-0 me-sm-2">
-              <input type="hidden" name="candidate_action" value="update">
+              <input type="hidden" name="company_action" value="update">
               <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-              <input type="hidden" name="existing_resume" value="<?php echo htmlspecialchars($row['resume']); ?>">
               <button type="submit" class="btn btn-outline-info btn-sm w-100">
                 <i class="bi bi-pencil-fill"></i> Update
               </button>
             </form>
             <form method="get">
-              <input type="hidden" name="candidate_action" value="delete">
+              <input type="hidden" name="company_action" value="delete">
               <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-              <input type="hidden" name="existing_resume" value="<?php echo htmlspecialchars($row['resume']); ?>">
               <button type="submit" class="btn btn-outline-danger btn-sm w-100">
                 <i class="bi bi-trash-fill"></i> Delete
               </button>

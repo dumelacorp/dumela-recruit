@@ -20,8 +20,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         $_SESSION['alert']['type'] = 'error';
         $_SESSION['alert']['message'] = "Log in failed.";
-        $timestamp = date('Y-m-d H:i:s'); 
-        error_log("$timestamp: $e \n", 3, 'dashboard/error_log'); 
+        $timestamp = date('Y-m-d H:i:s');  
         error_log("$timestamp: User Login Failed! \n", 3, 'dashboard/error_log'); 
     }
 }

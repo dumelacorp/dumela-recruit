@@ -309,13 +309,10 @@
                                                 default:
                                                     echo "Invalid company action";
                                             }
-                                        } else {
-                                            // echo "No action specified";
                                         }
 
-                                    } else {
-                                        // echo "No ID specified";
                                     }
+                                    // <-- Corresponding else statement if no id goes here -->
 
 
                                     if (isset($_GET['page'])){

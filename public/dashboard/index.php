@@ -310,11 +310,11 @@
                                                     echo "Invalid company action";
                                             }
                                         } else {
-                                            echo "No action specified";
+                                            // echo "No action specified";
                                         }
 
                                     } else {
-                                        echo "No ID specified";
+                                        // echo "No ID specified";
                                     }
 
 

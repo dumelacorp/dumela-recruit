@@ -29,6 +29,50 @@ class Candidate {
         $this->conn = $db;
     }
 
+    public function emailExists() {
+        try{
+            $query = "SELECT id, email, first_name, status FROM candidates WHERE email = ?";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(1, $this->email);
+            $stmt->execute();
+
+            if($stmt->rowCount() == 1) {
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                $this->id = $row['id'];
+                $this->first_name = $row['first_name'];
+                $this->status = $row['status'];
+                return true;
+            }
+            return false;
+        }catch(PDOException $e){
+            $timestamp = date('Y-m-d H:i:s'); 
+            error_log("$timestamp: $e \n", 3, 'error_log'); 
+            error_log("$timestamp: Something went wrong while checking if candidate exists in the database! \n", 3, 'error_log '); 
+        }
+    }
+
+    public function getDetails() {
+        try{
+            $query = "SELECT id, first_name, status FROM candidates WHERE email = ?";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(1, $this->email);
+            $stmt->execute();
+
+            if($stmt->rowCount() == 1) {
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                $this->id = $row['id'];
+                $this->first_name = $row['first_name'];
+                $this->status = $row['status'];
+                return true;
+            }
+            return false;
+        }catch(PDOException $e){
+            $timestamp = date('Y-m-d H:i:s'); 
+            error_log("$timestamp: $e \n", 3, 'error_log'); 
+            error_log("$timestamp: Something went wrong while getting candidate details from the database! \n", 3, 'error_log '); 
+        }
+    }
+
     public function create() {
         try{
             $query = 'INSERT INTO ' . $this->table . ' SET

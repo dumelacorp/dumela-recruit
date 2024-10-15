@@ -36,7 +36,7 @@ class Candidate {
             $stmt->bindParam(1, $this->email);
             $stmt->execute();
 
-            if($stmt->rowCount() == 1) {
+            if($stmt->rowCount() >= 1) {
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
                 $this->id = $row['id'];
                 $this->first_name = $row['first_name'];
@@ -309,6 +309,44 @@ class Candidate {
             error_log("$timestamp: $e \n", 3, 'error_log'); 
             error_log("$timestamp: Something went wrong while updating candidate in the database! \n", 3, 'error_log'); 
         }
+    }
+
+    public function updateDetails() {
+        // Start with an empty array to hold the fields to be updated
+        $fields_to_update = array();
+        $params = array();
+
+        // Check each field and add it to the update array if it's set
+        if (!empty($this->first_name)) {
+            $fields_to_update[] = "first_name = :first_name";
+            $params[':first_name'] = $this->first_name;
+        }
+        if (!empty($this->last_name)) {
+            $fields_to_update[] = "last_name = :last_name";
+            $params[':last_name'] = $this->last_name;
+        }
+        // Add more fields here as needed
+
+        // If no fields to update, return false
+        if (empty($fields_to_update)) {
+            return false;
+        }
+
+        // Construct the SQL query
+        $sql = "UPDATE " . $this->table . " SET " . implode(", ", $fields_to_update) . " WHERE email = :email";
+        $params[':email'] = $this->email;
+
+        // Prepare the query
+        $stmt = $this->conn->prepare($sql);
+
+        // Execute the query
+        if ($stmt->execute($params)) {
+            return true;
+        }
+
+        // If execution fails, print error and return false
+        printf("Error: %s.\n", $stmt->error);
+        return false;
     }
 
     public function delete() {

@@ -167,3 +167,4 @@ Stack trace:
 #1 C:\xampp\htdocs\dumela-recruit\public\register.php(29): User->register()
 #2 {main} 
 2024-09-06 18:39:31: Something went wrong while creating a user in the database! 
+2024-09-30 17:02:53: User Login Failed! 

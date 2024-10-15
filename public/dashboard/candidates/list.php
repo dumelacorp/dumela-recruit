@@ -41,6 +41,20 @@
 
 ?>
 <!-- Topbar Search -->
+<head>
+  <style>
+        .table-hover tbody tr {
+            cursor: pointer;
+        }
+        .action-buttons {
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        tr:hover .action-buttons {
+            opacity: 1;
+        }
+  </style>
+</head>
 <div class="container-fluid"> <div class="row">
         <div class="col-12"> 
             <form class="navbar-search border border-primary rounded" method='get' action="index.php">
@@ -79,36 +93,36 @@
     </thead>
     <tbody>
       <?php while($row = $candidates->fetch(PDO::FETCH_ASSOC)): ?>
-      <tr>
-        <td><?php echo htmlspecialchars($row['first_name']); ?></td>
-        <td><?php echo htmlspecialchars($row['last_name']); ?></td>
-        <td><?php echo htmlspecialchars($row['country']); ?></td>
-        <td><?php echo htmlspecialchars($row['state']); ?></td>
-        <td><?php echo htmlspecialchars($row['job_title']); ?></td>
-        <td><?php echo htmlspecialchars($row['level']); ?></td>
-        <td>
-            <a href="../../uploads/<?php echo $row['resume']; ?>" target="_blank" class="btn btn-outline-primary btn-sm">View</a>
-        </td>
-        <td>
-          <div class="d-flex flex-column flex-sm-row">
-            <form method="get" class="mb-2 mb-sm-0 me-sm-2">
-              <input type="hidden" name="candidate_action" value="update">
-              <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-              <input type="hidden" name="existing_resume" value="<?php echo htmlspecialchars($row['resume']); ?>">
-              <button type="submit" class="btn btn-outline-info btn-sm w-100">
-                <i class="bi bi-pencil-fill"></i> Update
-              </button>
-            </form>
-            <form method="get">
-              <input type="hidden" name="candidate_action" value="delete">
-              <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
-              <input type="hidden" name="existing_resume" value="<?php echo htmlspecialchars($row['resume']); ?>">
-              <button type="submit" class="btn btn-outline-danger btn-sm w-100">
-                <i class="bi bi-trash-fill"></i> Delete
-              </button>
-            </form>
-          </div>
-        </td>
+        <tr data-id="<?php echo $row['id']; ?>" class="candidate-row cursor-pointer hover:bg-gray-100">
+          <td><?php echo htmlspecialchars($row['first_name']); ?></td>
+          <td><?php echo htmlspecialchars($row['last_name']); ?></td>
+          <td><?php echo htmlspecialchars($row['country']); ?></td>
+          <td><?php echo htmlspecialchars($row['state']); ?></td>
+          <td><?php echo htmlspecialchars($row['job_title']); ?></td>
+          <td><?php echo htmlspecialchars($row['level']); ?></td>
+          <td>
+              <a href="../../uploads/<?php echo $row['resume']; ?>" target="_blank" class="btn btn-outline-primary btn-sm">View</a>
+          </td>
+          <td>
+              <div class="d-flex flex-column flex-sm-row">
+                  <form method="get" class="mb-2 mb-sm-0 me-sm-2">
+                      <input type="hidden" name="candidate_action" value="update">
+                      <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                      <input type="hidden" name="existing_resume" value="<?php echo htmlspecialchars($row['resume']); ?>">
+                      <button type="submit" class="btn btn-outline-info btn-sm w-100">
+                          <i class="bi bi-pencil-fill"></i> Update
+                      </button>
+                  </form>
+                  <form method="get">
+                      <input type="hidden" name="candidate_action" value="delete">
+                      <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                      <input type="hidden" name="existing_resume" value="<?php echo htmlspecialchars($row['resume']); ?>">
+                      <button type="submit" class="btn btn-outline-danger btn-sm w-100">
+                          <i class="bi bi-trash-fill"></i> Delete
+                      </button>
+                  </form>
+              </div>
+          </td>
       </tr>
       <?php endwhile; ?>
     </tbody>
@@ -143,3 +157,20 @@
         </ul>
     </nav>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const rows = document.querySelectorAll('.candidate-row');
+      rows.forEach(row => {
+          row.addEventListener('click', function(e) {
+              // Prevent the click event from triggering on buttons
+              if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || e.target.closest('button') || e.target.closest('a')) {
+                  return;
+              }
+              
+              const id = this.getAttribute('data-id');
+              window.location.href = `?candidate_action=view&id=${id}`;
+          });
+      });
+  });
+</script>

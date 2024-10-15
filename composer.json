@@ -1,0 +1,7 @@
+{
+    "require": {
+        "php": "^8.2",
+        "google/apiclient": "^2.12.1",
+        "guzzlehttp/guzzle": "^7.0"
+    }
+}

@@ -295,6 +295,9 @@
                                                 case 'delete':
                                                     include 'candidates/delete.php';
                                                     break;
+                                                case 'view':
+                                                    include 'candidates/view.php';
+                                                    break;
                                                 default:
                                                     echo "Invalid candidate action";
                                             }
@@ -314,7 +317,8 @@
                                         }
 
                                     } else {
-                                        echo "No ID specified";
+                                        // echo "No ID specified";
+                                        echo "";
                                     }
 
 
@@ -327,6 +331,8 @@
                                             include 'candidates/update.php';
                                         }elseif ($_GET['page'] == 'delete'){
                                             include 'candidates/delete.php';
+                                        }elseif ($_GET['page'] == 'view'){
+                                            include 'candidates/view.php';
                                         }else {
                                             echo 'Oops! Sorry, page not found.';
                                         }

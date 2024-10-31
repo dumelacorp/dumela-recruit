@@ -75,92 +75,106 @@
                 <div class="sidebar-brand-text mx-3">Dumela Recruitment</div>
             </a>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
+            <?php if (!isset($_GET['candidate_action']) || $_GET['candidate_action'] !== 'view'): ?>
 
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
+                <!-- Divider -->
+                <hr class="sidebar-divider my-0">
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
+                <!-- Nav Item - Dashboard -->
+                <li class="nav-item active">
+                    <a class="nav-link" href="">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Dashboard</span></a>
+                </li>
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Candidates
-            </div>
+                <!-- Divider -->
+                <hr class="sidebar-divider">
 
-            <?php
-                // Determine which section is active
-                $active_section = '';
-                if (isset($_GET['page']) && ($_GET['page'] == 'new' || $_GET['page'] == 'list')) {
-                    $active_section = 'candidates';
-                } elseif (isset($_GET['company']) && ($_GET['company'] == 'new' || $_GET['company'] == 'list')) {
-                    $active_section = 'companies';
-                } 
-
-                // Preserve active section when clicking "New" under Companies
-                if (isset($_GET['company']) && $_GET['company'] == 'new') {
-                    $active_section = 'companies';
-                }
-            ?>
-
-            <li class="nav-item">
-                <a class="nav-link <?php echo $active_section === 'candidates' ? '' : 'collapsed'; ?>" href="#" data-toggle="collapse" data-target="#collapseCandidates"
-                aria-expanded="<?php echo $active_section === 'candidates' ? 'true' : 'false'; ?>" aria-controls="collapseCandidates">
-                    <i class="fas fa-fw fa-users"></i>
-                    <span>Candidates</span>
-                </a>
-                <div id="collapseCandidates" class="collapse <?php echo $active_section === 'candidates' ? 'show' : ''; ?>" aria-labelledby="headingCandidates" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Candidates Actions:</h6>
-                        <a class="collapse-item <?php echo isset($_GET['page']) && $_GET['page'] === 'new' ? 'active' : ''; ?>" href="?page=new">New</a>
-                        <a class="collapse-item <?php echo isset($_GET['page']) && $_GET['page'] === 'list' ? 'active' : ''; ?>" href="?page=list">List</a>
-                    </div>
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Candidates
                 </div>
-            </li>
 
-            <li class="nav-item">
-                <a class="nav-link <?php echo $active_section === 'companies' ? '' : 'collapsed'; ?>" href="#" data-toggle="collapse" data-target="#collapseCompanies"
-                aria-expanded="<?php echo $active_section === 'companies' ? 'true' : 'false'; ?>" aria-controls="collapseCompanies">
-                    <i class="fas fa-fw fa-building"></i>
-                    <span>Companies</span>
-                </a>
-                <div id="collapseCompanies" class="collapse <?php echo $active_section === 'companies' ? 'show' : ''; ?>" aria-labelledby="headingCompanies" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Companies Actions:</h6>
-                        <a class="collapse-item <?php echo isset($_GET['company']) && $_GET['company'] === 'new' ? 'active' : ''; ?>" href="?company=new">New</a>
-                        <a class="collapse-item <?php echo isset($_GET['company']) && $_GET['company'] === 'list' ? 'active' : ''; ?>" href="?company=list">List</a>
+                <?php
+                    // Determine which section is active
+                    $active_section = '';
+                    if (isset($_GET['page']) && ($_GET['page'] == 'new' || $_GET['page'] == 'list')) {
+                        $active_section = 'candidates';
+                    } elseif (isset($_GET['company']) && ($_GET['company'] == 'new' || $_GET['company'] == 'list')) {
+                        $active_section = 'companies';
+                    } 
+
+                    // Preserve active section when clicking "New" under Companies
+                    if (isset($_GET['company']) && $_GET['company'] == 'new') {
+                        $active_section = 'companies';
+                    }
+                ?>
+
+                <li class="nav-item">
+                    <a class="nav-link <?php echo $active_section === 'candidates' ? '' : 'collapsed'; ?>" href="#" data-toggle="collapse" data-target="#collapseCandidates"
+                    aria-expanded="<?php echo $active_section === 'candidates' ? 'true' : 'false'; ?>" aria-controls="collapseCandidates">
+                        <i class="fas fa-fw fa-users"></i>
+                        <span>Candidates</span>
+                    </a>
+                    <div id="collapseCandidates" class="collapse <?php echo $active_section === 'candidates' ? 'show' : ''; ?>" aria-labelledby="headingCandidates" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Candidates Actions:</h6>
+                            <a class="collapse-item <?php echo isset($_GET['page']) && $_GET['page'] === 'new' ? 'active' : ''; ?>" href="?page=new">New</a>
+                            <a class="collapse-item <?php echo isset($_GET['page']) && $_GET['page'] === 'list' ? 'active' : ''; ?>" href="?page=list">List</a>
+                        </div>
                     </div>
-                </div>
-            </li>
+                </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Users
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-user-circle"></i>
-                    <span>Users</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">User Actions:</h6>
-                        <!-- <a class="collapse-item" href="login.html">Login</a> -->
-                        <a class="collapse-item" href="../register.php" target="_blank">Register</a>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo $active_section === 'companies' ? '' : 'collapsed'; ?>" href="#" data-toggle="collapse" data-target="#collapseCompanies"
+                    aria-expanded="<?php echo $active_section === 'companies' ? 'true' : 'false'; ?>" aria-controls="collapseCompanies">
+                        <i class="fas fa-fw fa-building"></i>
+                        <span>Companies</span>
+                    </a>
+                    <div id="collapseCompanies" class="collapse <?php echo $active_section === 'companies' ? 'show' : ''; ?>" aria-labelledby="headingCompanies" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Companies Actions:</h6>
+                            <a class="collapse-item <?php echo isset($_GET['company']) && $_GET['company'] === 'new' ? 'active' : ''; ?>" href="?company=new">New</a>
+                            <a class="collapse-item <?php echo isset($_GET['company']) && $_GET['company'] === 'list' ? 'active' : ''; ?>" href="?company=list">List</a>
+                        </div>
                     </div>
+                </li>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Users
                 </div>
-            </li>
+
+                <!-- Nav Item - Pages Collapse Menu -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                        aria-expanded="true" aria-controls="collapsePages">
+                        <i class="fas fa-fw fa-user-circle"></i>
+                        <span>Users</span>
+                    </a>
+                    <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">User Actions:</h6>
+                            <!-- <a class="collapse-item" href="login.html">Login</a> -->
+                            <a class="collapse-item" href="../register.php" target="_blank">Register</a>
+                        </div>
+                    </div>
+                </li>
+            
+            <?php endif; ?>
+
+            <?php if (isset($_GET['candidate_action']) && $_GET['candidate_action'] === 'view'): ?>
+                <hr class="sidebar-divider">
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:history.back()">
+                        <i class="fas fa-fw fa-arrow-left"></i>
+                        <span>Back to List</span>
+                    </a>
+                </li>
+            <?php endif; ?>
 
 
             <!-- Divider -->
@@ -298,6 +312,9 @@
                                                 case 'view':
                                                     include 'candidates/view.php';
                                                     break;
+                                                case 'upload':
+                                                    include 'candidates/upload.php';
+                                                    break;
                                                 default:
                                                     echo "Invalid candidate action";
                                             }
@@ -316,7 +333,8 @@
                                             echo "No action specified";
                                         }
 
-                                    } else {
+                                    }
+                                    else {
                                         // echo "No ID specified";
                                         echo "";
                                     }
@@ -331,8 +349,6 @@
                                             include 'candidates/update.php';
                                         }elseif ($_GET['page'] == 'delete'){
                                             include 'candidates/delete.php';
-                                        }elseif ($_GET['page'] == 'view'){
-                                            include 'candidates/view.php';
                                         }else {
                                             echo 'Oops! Sorry, page not found.';
                                         }

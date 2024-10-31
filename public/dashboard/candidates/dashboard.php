@@ -13,6 +13,14 @@ if (!isset($_SESSION['email'])) {
     exit();
 }
 
+// Check for redirection after successful sign-in
+if (isset($_SESSION['redirect_after_login'])) {
+    $redirect_url = $_SESSION['redirect_after_login'];
+    unset($_SESSION['redirect_after_login']); // Clear the session variable
+    header("Location: " . $redirect_url);
+    exit();
+}
+
 $root_folder_path = dirname(__DIR__);
 include_once $root_folder_path . '../../../config/Database.php';
 include_once $root_folder_path . '../../../classes/Candidate.php';

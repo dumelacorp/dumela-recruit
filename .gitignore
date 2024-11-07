@@ -480,3 +480,4 @@ upload/*
 
 # Exclude specific folder
 /Online\ Proctoring\ Exam/
+/Online\ Proctoring\ Exam/*

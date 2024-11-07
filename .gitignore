@@ -476,3 +476,7 @@ composer.lock
 # Exclude the config file
 database.php
 upload/*
+
+
+# Exclude specific folder
+/Online\ Proctoring\ Exam/

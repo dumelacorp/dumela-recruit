@@ -1,0 +1,95 @@
+body { 
+    background-color: white;
+    border-radius: 20px;
+}
+.logo {
+    position: relative;
+    margin-top: 30px;
+    border-radius: 10px;
+}
+
+.background-img {
+    position: absolute;
+    width: 400px; 
+    height: 100vh;
+    object-fit: cover;
+    margin-top: -8px;
+    margin-left: -8px;
+    z-index: -1;
+}
+
+.instructions {
+    position: absolute;
+    height: 70vh; 
+    margin-left: 500px;
+    margin-right: 50px;
+    padding: 10px 100px;
+    z-index: -1;
+    border: 2px solid #00CF8E;
+    border-radius: 20px;
+}
+
+.parent {
+    display: flex;
+    margin-left: 800px;
+    margin-top: -45px;
+    padding-bottom: 10px;
+}
+
+.parent1 {
+    display: flex;
+    margin-left: 400px;
+}
+
+h1 {
+    font-size: 21px;
+    justify-self: center;
+    font-weight: 400;
+}
+
+h2 {
+    font-size: 27;
+    font-weight: bold;
+}
+
+h3 {
+    text-decoration: underline;
+}
+
+li {
+    padding: 10px;
+    font-size: 20px;
+}
+
+.next {
+    width: 80px;
+    height: 40px;
+    font-size: 20px;
+    font-weight: bolder;
+    background-color: #00CF8E;
+    border-radius: 10px;
+    color: white;
+    border: none;
+    margin-left: 0px;
+    cursor: pointer;
+}
+
+.single {
+    margin-left: 500px;
+}
+
+.previous {
+    width: 80px;
+    height: 40px;
+    font-size: 20px;
+    font-weight: bolder;
+    background-color: #00CF8E;
+    border-radius: 10px;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.child2 {
+    padding-left: 20px;
+}

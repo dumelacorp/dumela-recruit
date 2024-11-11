@@ -312,41 +312,50 @@ class Candidate {
     }
 
     public function updateDetails() {
-        // Start with an empty array to hold the fields to be updated
+        $fields = [
+            'first_name',
+            'middle_name',
+            'last_name',
+            'country',
+            'state',
+            'city',
+            'job_title',
+            'level',
+            'rate'
+        ];
+
         $fields_to_update = array();
         $params = array();
 
-        // Check each field and add it to the update array if it's set
-        if (!empty($this->first_name)) {
-            $fields_to_update[] = "first_name = :first_name";
-            $params[':first_name'] = $this->first_name;
+        // Build update fields and parameters
+        foreach ($fields as $field) {
+            // Include field even if empty to allow clearing fields
+            if (isset($this->$field)) {
+                $fields_to_update[] = "$field = :$field";
+                $params[":$field"] = $this->$field;
+            }
         }
-        if (!empty($this->last_name)) {
-            $fields_to_update[] = "last_name = :last_name";
-            $params[':last_name'] = $this->last_name;
-        }
-        // Add more fields here as needed
 
         // If no fields to update, return false
         if (empty($fields_to_update)) {
             return false;
         }
 
-        // Construct the SQL query
-        $sql = "UPDATE " . $this->table . " SET " . implode(", ", $fields_to_update) . " WHERE email = :email";
-        $params[':email'] = $this->email;
+        try {
+            // Construct and execute the SQL query
+            $sql = "UPDATE " . $this->table . " 
+                   SET " . implode(", ", $fields_to_update) . " 
+                   WHERE email = :email";
+            $params[':email'] = $this->email;
 
-        // Prepare the query
-        $stmt = $this->conn->prepare($sql);
+            $stmt = $this->conn->prepare($sql);
+            return $stmt->execute($params);
 
-        // Execute the query
-        if ($stmt->execute($params)) {
-            return true;
+        } catch (PDOException $e) {
+            // Log the error properly
+            error_log("Update failed: " . $e->getMessage());
+            return false;
         }
-
-        // If execution fails, print error and return false
-        printf("Error: %s.\n", $stmt->error);
-        return false;
     }
 
     public function delete() {

@@ -1,10 +1,8 @@
 <?php
-// Start session at the very beginning of the file
 session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Function to log debug information
 function debug_log($message) {
     error_log(date('[Y-m-d H:i:s] ') . $message . "\n", 3, 'debug.log');
 }
@@ -36,8 +34,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 throw new Exception("Connection failed: " . $conn->connect_error);
             }
 
-            debug_log("Database connection successful");
-
             // Check if email already exists
             $stmt = $conn->prepare("SELECT id FROM candidate_users WHERE email = ?");
             $stmt->bind_param("s", $email);
@@ -48,25 +44,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $error = "Email already exists.";
                 debug_log("Email already exists: " . $email);
             } else {
-                // Hash the password
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                debug_log("Password hashed successfully");
-
-                // Insert new user
+                
                 $stmt = $conn->prepare("INSERT INTO candidate_users (name, email, password) VALUES (?, ?, ?)");
                 $stmt->bind_param("sss", $name, $email, $hashed_password);
 
                 if ($stmt->execute()) {
-                    debug_log("User inserted successfully. ID: " . $stmt->insert_id);
-                    
-                    // Store email in session and ensure session is written
                     $_SESSION['signup_email'] = $email;
                     session_write_close();
-                    
-                    debug_log("Redirecting to upload.php with email: " . $email);
-                    
-                    // Make sure there's no output before redirect
-                    ob_clean();
                     header("Location: upload.php");
                     exit();
                 } else {
@@ -81,9 +66,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
-
-// Debug session data
-debug_log("Current session data: " . print_r($_SESSION, true));
 ?>
 
 <!DOCTYPE html>
@@ -91,52 +73,130 @@ debug_log("Current session data: " . print_r($_SESSION, true));
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Sign Up - Dumela Recruitment</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+    <style>
+        .bg-gradient-primary {
+            background: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
+        }
+    </style>
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-50">
     <div class="container mx-auto px-4 py-8">
-        <div class="max-w-md mx-auto bg-white rounded-lg overflow-hidden md:max-w-lg">
-            <div class="md:flex">
-                <div class="w-full px-6 py-8">
-                    <h2 class="text-2xl font-bold text-gray-700 text-center mb-6">Sign Up</h2>
-                    <?php if (!empty($error)): ?>
-                        <p class="text-red-500 text-center mb-4"><?php echo htmlspecialchars($error); ?></p>
-                    <?php endif; ?>
-                    <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Name</label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-                                   id="name" type="text" name="name" required 
-                                   value="<?php echo isset($_POST['name']) ? htmlspecialchars($_POST['name']) : ''; ?>">
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email</label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-                                   id="email" type="email" name="email" required 
-                                   value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>">
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Password</label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" 
-                                   id="password" type="password" name="password" required minlength="8">
-                        </div>
-                        <div class="mb-6">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="confirm_password">Confirm Password</label>
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" 
-                                   id="confirm_password" type="password" name="confirm_password" required minlength="8">
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full" 
-                                    type="submit">Sign Up</button>
-                        </div>
-                    </form>
-                    <div class="mt-4 text-center">
-                        <a href="login.php" class="text-blue-500 hover:text-blue-700">Already have an account? Login here</a>
+        <!-- Logo Section -->
+        <div class="text-center mb-8">
+            <img src="../assets/img/dum_logo.png" alt="Dumela Corp. Recruitment" class="h-16 mx-auto">
+        </div>
+
+        <!-- Main Content -->
+        <div class="max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="p-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Create Account</h2>
+
+                <?php if (!empty($error)): ?>
+                    <div class="mb-4 p-4 rounded bg-red-100 text-red-700">
+                        <?php echo htmlspecialchars($error); ?>
                     </div>
-                </div>
+                <?php endif; ?>
+
+                <form method="POST" class="space-y-6">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                        <div class="mt-1">
+                            <input type="text" id="name" name="name" 
+                                   value="<?php echo isset($_POST['name']) ? htmlspecialchars($_POST['name']) : ''; ?>"
+                                   required
+                                   class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                        <div class="mt-1">
+                            <input type="email" id="email" name="email" 
+                                   value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>"
+                                   required
+                                   class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                        <div class="mt-1 relative">
+                            <input type="password" id="password" name="password" 
+                                   required minlength="8"
+                                   class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                            <button type="button" onclick="togglePassword('password')" 
+                                    class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                <i class="fas fa-eye text-gray-400" id="togglePasswordIcon"></i>
+                            </button>
+                        </div>
+                        <p class="mt-1 text-sm text-gray-500">Minimum 8 characters</p>
+                    </div>
+
+                    <div>
+                        <label for="confirm_password" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                        <div class="mt-1 relative">
+                            <input type="password" id="confirm_password" name="confirm_password" 
+                                   required minlength="8"
+                                   class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                            <button type="button" onclick="togglePassword('confirm_password')" 
+                                    class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                <i class="fas fa-eye text-gray-400" id="toggleConfirmPasswordIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button type="submit" 
+                                class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-primary hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150">
+                            Sign Up
+                        </button>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="login.php" class="text-sm text-blue-600 hover:text-blue-500">
+                            Already have an account? Sign in
+                        </a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        function togglePassword(inputId) {
+            const passwordInput = document.getElementById(inputId);
+            const toggleIcon = document.getElementById(inputId === 'password' ? 'togglePasswordIcon' : 'toggleConfirmPasswordIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+
+        // Initialize toastr
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "timeOut": "3000"
+        };
+
+        <?php if (!empty($error)): ?>
+            toastr.error('<?php echo addslashes($error); ?>');
+        <?php endif; ?>
+    </script>
 </body>
 </html>

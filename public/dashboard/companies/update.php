@@ -28,6 +28,7 @@
                 $company->specialization = $_POST['specialization'];
                 $company->contact = $_POST['contact'];
                 $company->contact_person = $_POST['contact_person'];
+                $company->notes = $_POST['notes'];
                 
                 try{
                     $company->update();
@@ -308,6 +309,43 @@
                 <div class="form-group">
                     <label>Contact Person</label>
                     <input type="text" name="contact_person" class="form-control" value="<?php echo $row['contact_person']; ?>" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-sm mt-8 mb-8">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h5 class="text-xl font-semibold text-gray-800">Company Notes</h5>
+            </div>
+            <div class="p-6">
+                <!-- Display Existing Notes -->
+                <?php if (!empty($row['notes'])): ?>
+                <div class="mb-6">
+                    <h6 class="text-sm font-medium text-gray-700 mb-2">Existing Notes</h6>
+                    <div class="bg-gray-50 p-4 rounded-md text-gray-700 whitespace-pre-line">
+                        <?php echo nl2br(htmlspecialchars($row['notes'])); ?>
+                    </div>
+                </div>
+                <?php endif; ?>
+
+                <!-- Edit Notes -->
+                <div class="mb-4">
+                    <label for="notes" class="block text-sm font-medium text-gray-700 mb-2">
+                        <?php echo empty($row['notes']) ? 'Add Notes' : 'Replace Notes'; ?>
+                    </label>
+                    <div class="overflow-x-auto">
+                        <textarea 
+                            name="notes" 
+                            id="notes" 
+                            rows="6" 
+                            class="w-full resize px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            style="min-width: 100%; width: 100%;"
+                            placeholder="Enter interview notes, feedback, or any important information about the candidate..."
+                        ><?php echo htmlspecialchars($row['notes'] ?? ''); ?></textarea>
+                    </div>
+                    <p class="mt-2 text-sm text-gray-500">
+                        Add any relevant information about the company.
+                    </p>
                 </div>
             </div>
         </div>

@@ -68,6 +68,26 @@ try {
     $error_message = "An error occurred: " . $e->getMessage();
     error_log($e->getMessage());
 }
+
+// function getResumePath($filename) {
+//     $possible_paths = [
+//         dirname(__FILE__) . '/../../uploads/',
+//         dirname(__FILE__) . '/../../../uploads/',
+//         $_SERVER['DOCUMENT_ROOT'] . '/uploads/',
+//         $_SERVER['DOCUMENT_ROOT'] . '/dumela-recruit/uploads/',
+//         // Add more possible paths if needed
+//     ];
+
+//     foreach ($possible_paths as $path) {
+//         $full_path = $path . $filename;
+//         if (file_exists($full_path)) {
+//             // Convert to web-accessible URL
+//             $relative_path = str_replace($_SERVER['DOCUMENT_ROOT'], '', $full_path);
+//             return $relative_path;
+//         }
+//     }
+//     return false;
+// }
 ?>
 
 <!DOCTYPE html>
@@ -130,7 +150,7 @@ try {
                     </div>
                 <?php endif; ?>
 
-                <form action="profile.php" method="POST" class="bg-white shadow-md rounded-lg p-6">
+                <form action="profile.php" method="POST" enctype="multipart/form-data" class="bg-white shadow-md rounded-lg p-6">
                     <!-- Email field (disabled) -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="mb-4">
@@ -202,6 +222,42 @@ try {
                             <input type="text" id="rate" name="rate" 
                                 value="<?php echo htmlspecialchars($candidateDetails['rate'] ?? ''); ?>" 
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+                    </div>
+
+                    <div class="w-full mt-6 mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">Current Resume</label>
+                        <?php if (!empty($candidateDetails['resume'])): ?>
+                            <div class="flex items-center justify-between bg-gray-50 p-3 rounded-md border">
+                                <div class="flex items-center">
+                                    <i class="fas fa-file-pdf text-red-500 text-xl mr-2"></i>
+                                    <span class="text-gray-600"><?php echo htmlspecialchars($candidateDetails['resume']); ?></span>
+                                </div>
+                                <a href="../../../uploads/<?php echo htmlspecialchars($candidateDetails['resume']); ?>" 
+                                target="_blank" 
+                                class="text-blue-500 hover:text-blue-700">
+                                    <i class="fas fa-download"></i> Download
+                                </a>
+                            </div>
+                        <?php else: ?>
+                            <p class="text-gray-500 italic">No resume uploaded</p>
+                        <?php endif; ?>
+
+                        <div class="mt-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2">Update Resume</label>
+                            <div class="mt-1 flex items-center">
+                                <input type="file" 
+                                    name="resume" 
+                                    id="resume" 
+                                    accept=".pdf,.doc,.docx"
+                                    class="block w-full text-sm text-gray-500
+                                            file:mr-4 file:py-2 file:px-4
+                                            file:rounded-md file:border-0
+                                            file:text-sm file:font-semibold
+                                            file:bg-blue-50 file:text-blue-700
+                                            hover:file:bg-blue-100">
+                            </div>
+                            <p class="mt-1 text-sm text-gray-500">Accepted formats: PDF, DOC, DOCX</p>
                         </div>
                     </div>
 

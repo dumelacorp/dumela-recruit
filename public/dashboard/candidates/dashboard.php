@@ -101,25 +101,107 @@ if (!$candidateDetails) {
                 </div>
                 
                 <div class="bg-white shadow-md rounded-lg p-6 mb-6">
-                    <h2 class="text-xl font-semibold mb-4">Your Details</h2>
-                    <p class="mb-2"><strong class="font-medium">Email:</strong> <?php echo htmlspecialchars($candidateDetails['email'] ?? 'N/A'); ?></p>
-                    <p class="mb-2"><strong class="font-medium">Last Name:</strong> <?php echo htmlspecialchars($candidateDetails['last_name'] ?? 'N/A'); ?></p>
-                    <p class="mb-2"><strong class="font-medium">First Name:</strong> <?php echo htmlspecialchars($candidateDetails['first_name'] ?? 'N/A'); ?></p>
-                    <p class="mb-2"><strong class="font-medium">Middle Name:</strong> <?php echo htmlspecialchars($candidateDetails['middle_name'] ?? 'N/A'); ?></p>
-                    <p class="mb-2"><strong class="font-medium">Country:</strong> <?php echo htmlspecialchars($candidateDetails['country'] ?? 'N/A'); ?></p>
-                    <p class="mb-2"><strong class="font-medium">State:</strong> <?php echo htmlspecialchars($candidateDetails['state'] ?? 'N/A'); ?></p>
-                    <p class="mb-2"><strong class="font-medium">City:</strong> <?php echo htmlspecialchars($candidateDetails['city'] ?? 'N/A'); ?></p>
-                    <p class="mb-2"><strong class="font-medium">Job Title:</strong> <?php echo htmlspecialchars($candidateDetails['job_title'] ?? 'N/A'); ?></p>
-                    <p class="mb-2"><strong class="font-medium">Level:</strong> <?php echo htmlspecialchars($candidateDetails['level'] ?? 'N/A'); ?></p>
-                    <p class="mb-2"><strong class="font-medium">Rate:</strong> <?php echo htmlspecialchars($candidateDetails['rate'] ?? 'N/A') . ' / ' . htmlspecialchars($candidateDetails['rate_period'] ?? 'N/A'); ?></p>
+                    <h2 class="text-xl font-semibold mb-6">Your Details</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+                        <div class="flex items-start">
+                            <div class="w-32 text-gray-500">Email</div>
+                            <div class="flex-1 font-medium">
+                                <?php echo htmlspecialchars($candidateDetails['email'] ?? 'N/A'); ?>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="w-32 text-gray-500">First Name</div>
+                            <div class="flex-1 font-medium">
+                                <?php echo htmlspecialchars($candidateDetails['first_name'] ?? 'N/A'); ?>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="w-32 text-gray-500">Middle Name</div>
+                            <div class="flex-1 font-medium">
+                                <?php echo htmlspecialchars($candidateDetails['middle_name'] ?? 'N/A'); ?>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="w-32 text-gray-500">Last Name</div>
+                            <div class="flex-1 font-medium">
+                                <?php echo htmlspecialchars($candidateDetails['last_name'] ?? 'N/A'); ?>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="w-32 text-gray-500">Country</div>
+                            <div class="flex-1 font-medium">
+                                <?php echo htmlspecialchars($candidateDetails['country'] ?? 'N/A'); ?>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="w-32 text-gray-500">State</div>
+                            <div class="flex-1 font-medium">
+                                <?php echo htmlspecialchars($candidateDetails['state'] ?? 'N/A'); ?>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="w-32 text-gray-500">City</div>
+                            <div class="flex-1 font-medium">
+                                <?php echo htmlspecialchars($candidateDetails['city'] ?? 'N/A'); ?>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="w-32 text-gray-500">Job Title</div>
+                            <div class="flex-1 font-medium">
+                                <?php echo htmlspecialchars($candidateDetails['job_title'] ?? 'N/A'); ?>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="w-32 text-gray-500">Level</div>
+                            <div class="flex-1 font-medium">
+                                <?php echo htmlspecialchars($candidateDetails['level'] ?? 'N/A'); ?>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="w-32 text-gray-500">Rate</div>
+                            <div class="flex-1 font-medium">
+                                <?php 
+                                    echo htmlspecialchars($candidateDetails['rate'] ?? 'N/A') . 
+                                        ' / ' . 
+                                        htmlspecialchars($candidateDetails['rate_period'] ?? 'N/A'); 
+                                ?>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Add debug information if needed -->
-                <?php if (isset($_SESSION['debug'])): ?>
-                <!-- <div class="mt-4 p-4 bg-gray-100 rounded">
-                    <pre><?php print_r($candidateDetails); ?></pre>
-                </div> -->
-                <?php endif; ?>
+                <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-semibold">Resume</h2>
+                        <?php if (!empty($candidateDetails['resume'])): ?>
+                            <a href="../../../uploads/<?php echo htmlspecialchars($candidateDetails['resume']); ?>" 
+                            target="_blank" 
+                            download
+                            class="inline-flex items-center px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md transition duration-150">
+                                <i class="fas fa-download mr-2"></i>
+                                Download
+                            </a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <div class="fixed bottom-8 right-8">
+                    <a href="profile.php" 
+                    class="flex items-center justify-center w-12 h-12 bg-blue-500 hover:bg-blue-600 text-white rounded-full shadow-lg transition duration-150"
+                    title="Edit Profile">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

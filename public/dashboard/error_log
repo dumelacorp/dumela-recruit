@@ -168,3 +168,67 @@ Stack trace:
 #2 {main} 
 2024-09-06 18:39:31: Something went wrong while creating a user in the database! 
 2024-09-30 17:02:53: User Login Failed! 
+2024-11-18 10:27:44: PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'notes = 'I like this candidate'
+                WHERE id = '44'' at line 17 in C:\xampp\htdocs\dumela-recruit\classes\Candidate.php:306
+Stack trace:
+#0 C:\xampp\htdocs\dumela-recruit\classes\Candidate.php(306): PDOStatement->execute()
+#1 C:\xampp\htdocs\dumela-recruit\public\dashboard\candidates\update.php(51): Candidate->update()
+#2 C:\xampp\htdocs\dumela-recruit\public\dashboard\index.php(307): include('C:\\xampp\\htdocs...')
+#3 {main} 
+2024-11-18 10:27:44: Something went wrong while updating candidate in the database! 
+2024-11-18 10:31:45: PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'notes = 'I like this candidate'
+                WHERE id = '44'' at line 17 in C:\xampp\htdocs\dumela-recruit\classes\Candidate.php:306
+Stack trace:
+#0 C:\xampp\htdocs\dumela-recruit\classes\Candidate.php(306): PDOStatement->execute()
+#1 C:\xampp\htdocs\dumela-recruit\public\dashboard\candidates\update.php(51): Candidate->update()
+#2 C:\xampp\htdocs\dumela-recruit\public\dashboard\index.php(307): include('C:\\xampp\\htdocs...')
+#3 {main} 
+2024-11-18 10:31:45: Something went wrong while updating candidate in the database! 
+2024-11-18 10:37:45: PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'notes = 'I like this candidate'
+                WHERE id = '44'' at line 17 in C:\xampp\htdocs\dumela-recruit\classes\Candidate.php:306
+Stack trace:
+#0 C:\xampp\htdocs\dumela-recruit\classes\Candidate.php(306): PDOStatement->execute()
+#1 C:\xampp\htdocs\dumela-recruit\public\dashboard\candidates\update.php(51): Candidate->update()
+#2 C:\xampp\htdocs\dumela-recruit\public\dashboard\index.php(307): include('C:\\xampp\\htdocs...')
+#3 {main} 
+2024-11-18 10:37:45: Something went wrong while updating candidate in the database! 
+2024-11-18 10:40:05: PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'notes = 'I like this candidate'
+                WHERE id = '45'' at line 17 in C:\xampp\htdocs\dumela-recruit\classes\Candidate.php:306
+Stack trace:
+#0 C:\xampp\htdocs\dumela-recruit\classes\Candidate.php(306): PDOStatement->execute()
+#1 C:\xampp\htdocs\dumela-recruit\public\dashboard\candidates\update.php(51): Candidate->update()
+#2 C:\xampp\htdocs\dumela-recruit\public\dashboard\index.php(307): include('C:\\xampp\\htdocs...')
+#3 {main} 
+2024-11-18 10:40:05: Something went wrong while updating candidate in the database! 
+2024-11-18 10:41:57: PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'notes = ''
+                WHERE id = '45'' at line 17 in C:\xampp\htdocs\dumela-recruit\classes\Candidate.php:306
+Stack trace:
+#0 C:\xampp\htdocs\dumela-recruit\classes\Candidate.php(306): PDOStatement->execute()
+#1 C:\xampp\htdocs\dumela-recruit\public\dashboard\candidates\update.php(51): Candidate->update()
+#2 C:\xampp\htdocs\dumela-recruit\public\dashboard\index.php(307): include('C:\\xampp\\htdocs...')
+#3 {main} 
+2024-11-18 10:41:57: Something went wrong while updating candidate in the database! 
+2024-11-18 10:42:13: PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'notes = ''
+                WHERE id = '45'' at line 17 in C:\xampp\htdocs\dumela-recruit\classes\Candidate.php:306
+Stack trace:
+#0 C:\xampp\htdocs\dumela-recruit\classes\Candidate.php(306): PDOStatement->execute()
+#1 C:\xampp\htdocs\dumela-recruit\public\dashboard\candidates\update.php(51): Candidate->update()
+#2 C:\xampp\htdocs\dumela-recruit\public\dashboard\index.php(307): include('C:\\xampp\\htdocs...')
+#3 {main} 
+2024-11-18 10:42:13: Something went wrong while updating candidate in the database! 
+2024-11-18 10:57:35: PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'notes = 'I like this company'
+                        WHERE id = '17'' at line 10 in C:\xampp\htdocs\dumela-recruit\classes\Company.php:202
+Stack trace:
+#0 C:\xampp\htdocs\dumela-recruit\classes\Company.php(202): PDOStatement->execute()
+#1 C:\xampp\htdocs\dumela-recruit\public\dashboard\companies\update.php(34): Company->update()
+#2 C:\xampp\htdocs\dumela-recruit\public\dashboard\index.php(324): include('C:\\xampp\\htdocs...')
+#3 {main} 
+2024-11-18 10:57:35: Something went wrong while updating company in the database! 
+2024-11-18 11:02:36: PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'notes = 'I like this company'
+                        WHERE id = '17'' at line 10 in C:\xampp\htdocs\dumela-recruit\classes\Company.php:202
+Stack trace:
+#0 C:\xampp\htdocs\dumela-recruit\classes\Company.php(202): PDOStatement->execute()
+#1 C:\xampp\htdocs\dumela-recruit\public\dashboard\companies\update.php(34): Company->update()
+#2 C:\xampp\htdocs\dumela-recruit\public\dashboard\index.php(324): include('C:\\xampp\\htdocs...')
+#3 {main} 
+2024-11-18 11:02:36: Something went wrong while updating company in the database! 

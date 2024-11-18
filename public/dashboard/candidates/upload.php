@@ -109,7 +109,12 @@ try {
 
 <?php require('../../../templates/header.php'); ?>
 <body>
-    <h3>Upload Data</h3>
+    <div class="text-center mb-2">
+        <h3 class="text-2xl font-bold inline-block px-6 py-3 bg-gray-50 rounded-lg">
+            Upload Data
+        </h3>
+    </div>
+
     <?php if (isset($_SESSION['alert'])): ?>
         <div class="alert <?php echo $_SESSION['alert']['type'] === 'error' ? 'alert-danger' : 'alert-success'; ?>" role="alert">
             <?php 

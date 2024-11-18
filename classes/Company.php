@@ -12,6 +12,7 @@ class Company {
     public $specialization;
     public $contact;
     public $contact_person;
+    public $notes;
 
     public $search_string;
 
@@ -161,40 +162,42 @@ class Company {
 
     public function update() {
         try{
-            $query = 'UPDATE ' . $this->table . ' SET
-                company_name = :company_name,
-                email = :email,
-                country = :country,
-                state = :state,
-                city = :city,
-                specialization = :specialization,
-                contact = :contact,
-                contact_person = :contact_person
-                WHERE id = :id';
+            $query = 'UPDATE companies 
+                 SET company_name = :company_name,
+                     email = :email,
+                     country = :country,
+                     state = :state,
+                     city = :city,
+                     specialization = :specialization,
+                     contact = :contact,
+                     contact_person = :contact_person,
+                     notes = :notes
+                 WHERE id = :id';
 
-            $stmt = $this->conn->prepare($query);
+        $stmt = $this->conn->prepare($query);
 
-            $this->company_name = ucwords(htmlspecialchars(strip_tags($this->company_name)));
-            $this->email = ucwords(htmlspecialchars(strip_tags($this->email)));
-            $this->country = htmlspecialchars(strip_tags($this->country));
-            $this->state = ucwords(htmlspecialchars(strip_tags($this->state)));
-            $this->city = ucwords(htmlspecialchars(strip_tags($this->city)));
-            $this->specialization = ucwords(htmlspecialchars(strip_tags($this->specialization)));
-            $this->contact = htmlspecialchars(strip_tags($this->contact));
-            $this->contact_person = htmlspecialchars(strip_tags($this->contact_person));
-
-            $this->id = htmlspecialchars(strip_tags($this->id));
-
-            $stmt->bindParam(':company_name', $this->company_name);
-            $stmt->bindParam(':email', $this->email);
-            $stmt->bindParam(':country', $this->country);
-            $stmt->bindParam(':state', $this->state);
-            $stmt->bindParam(':city', $this->city);
-            $stmt->bindParam(':specialization', $this->specialization);
-            $stmt->bindParam(':contact', $this->contact);
-            $stmt->bindParam(':contact_person', $this->contact_person);
-
-            $stmt->bindParam(':id', $this->id);
+        // Clean the data
+        $this->company_name = htmlspecialchars(strip_tags($this->company_name));
+        $this->email = htmlspecialchars(strip_tags($this->email));
+        $this->country = htmlspecialchars(strip_tags($this->country));
+        $this->state = htmlspecialchars(strip_tags($this->state));
+        $this->city = htmlspecialchars(strip_tags($this->city));
+        $this->specialization = htmlspecialchars(strip_tags($this->specialization));
+        $this->contact = htmlspecialchars(strip_tags($this->contact));
+        $this->contact_person = htmlspecialchars(strip_tags($this->contact_person));
+        $this->notes = htmlspecialchars(strip_tags($this->notes));
+        
+        // Bind the parameters
+        $stmt->bindParam(':company_name', $this->company_name);
+        $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':country', $this->country);
+        $stmt->bindParam(':state', $this->state);
+        $stmt->bindParam(':city', $this->city);
+        $stmt->bindParam(':specialization', $this->specialization);
+        $stmt->bindParam(':contact', $this->contact);
+        $stmt->bindParam(':contact_person', $this->contact_person);
+        $stmt->bindParam(':notes', $this->notes);
+        $stmt->bindParam(':id', $this->id);
 
             if($stmt->execute()) {
                 return true;

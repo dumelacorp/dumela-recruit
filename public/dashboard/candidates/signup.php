@@ -10,14 +10,14 @@ function debug_log($message) {
 $error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
+    //$name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
     debug_log("Received signup request for email: " . $email);
 
-    if (empty($name) || empty($email) || empty($password) || empty($confirm_password)) {
+    if (empty($email) || empty($password) || empty($confirm_password)) {
         $error = "All fields are required.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = "Invalid email format.";
@@ -46,8 +46,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
                 
-                $stmt = $conn->prepare("INSERT INTO candidate_users (name, email, password) VALUES (?, ?, ?)");
-                $stmt->bind_param("sss", $name, $email, $hashed_password);
+                $stmt = $conn->prepare("INSERT INTO candidate_users (email, password) VALUES (?, ?)");
+                $stmt->bind_param("ss", $email, $hashed_password);
 
                 if ($stmt->execute()) {
                     $_SESSION['signup_email'] = $email;
@@ -103,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <?php endif; ?>
 
                 <form method="POST" class="space-y-6">
-                    <div>
+                    <!-- <div>
                         <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
                         <div class="mt-1">
                             <input type="text" id="name" name="name" 
@@ -111,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                    required
                                    class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                         </div>
-                    </div>
+                    </div> -->
 
                     <div>
                         <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>

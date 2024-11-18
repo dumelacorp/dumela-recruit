@@ -20,6 +20,7 @@ class Candidate {
     public $status;
     public $outsource_rate;
     public $outsource_rate_period;
+    public $notes;
     public $search_string;
 
     public $created_at;
@@ -240,46 +241,28 @@ class Candidate {
 
     public function update() {
         try{
-            $query = 'UPDATE ' . $this->table . ' SET
-                first_name = :first_name,
-                middle_name = :middle_name,
-                last_name = :last_name,
-                email = :email,
-                country = :country,
-                state = :state,
-                city = :city,
-                job_title = :job_title,
-                level = :level,
-                rate = :rate,
-                rate_period = :rate_period,
-                status = :status,
-                outsource_rate = :outsource_rate,
-                outsource_rate_period = :outsource_rate_period,
-                resume = :resume
-                WHERE id = :id';
+            $query = 'UPDATE candidates 
+                        SET first_name = :first_name, 
+                            middle_name = :middle_name, 
+                            last_name = :last_name, 
+                            email = :email,
+                            country = :country,
+                            state = :state,
+                            city = :city,
+                            job_title = :job_title,
+                            level = :level,
+                            resume = :resume,
+                            rate = :rate,
+                            rate_period = :rate_period,
+                            status = :status,
+                            outsource_rate = :outsource_rate,
+                            outsource_rate_period = :outsource_rate_period,
+                            notes = :notes
+                        WHERE id = :id';
 
             $stmt = $this->conn->prepare($query);
 
-            $this->first_name = htmlspecialchars(strip_tags($this->first_name));
-            $this->middle_name = htmlspecialchars(strip_tags($this->middle_name));
-            $this->last_name = htmlspecialchars(strip_tags($this->last_name));
-            $this->email = htmlspecialchars(strip_tags($this->email));
-            $this->country = htmlspecialchars(strip_tags($this->country));
-            $this->state = htmlspecialchars(strip_tags($this->state));
-            $this->city = htmlspecialchars(strip_tags($this->city));
-            $this->job_title = htmlspecialchars(strip_tags($this->job_title));
-            $this->level = htmlspecialchars(strip_tags($this->level));
-            $this->resume = htmlspecialchars(strip_tags($this->resume));
-
-            $this->rate = htmlspecialchars(strip_tags($this->rate));
-            $this->rate_period = htmlspecialchars(strip_tags($this->rate_period));
-            // $this->status = htmlspecialchars(strip_tags($this->status));
-            $this->status = $this->status;
-            $this->outsource_rate = htmlspecialchars(strip_tags($this->outsource_rate));
-            $this->outsource_rate_period = htmlspecialchars(strip_tags($this->outsource_rate_period));
-
-            $this->id = htmlspecialchars(strip_tags($this->id));
-
+            // Bind the parameters
             $stmt->bindParam(':first_name', $this->first_name);
             $stmt->bindParam(':middle_name', $this->middle_name);
             $stmt->bindParam(':last_name', $this->last_name);
@@ -290,13 +273,12 @@ class Candidate {
             $stmt->bindParam(':job_title', $this->job_title);
             $stmt->bindParam(':level', $this->level);
             $stmt->bindParam(':resume', $this->resume);
-
             $stmt->bindParam(':rate', $this->rate);
             $stmt->bindParam(':rate_period', $this->rate_period);
             $stmt->bindParam(':status', $this->status);
             $stmt->bindParam(':outsource_rate', $this->outsource_rate);
             $stmt->bindParam(':outsource_rate_period', $this->outsource_rate_period);
-
+            $stmt->bindParam(':notes', $this->notes);
             $stmt->bindParam(':id', $this->id);
 
             if($stmt->execute()) {
@@ -312,49 +294,88 @@ class Candidate {
     }
 
     public function updateDetails() {
-        $fields = [
-            'first_name',
-            'middle_name',
-            'last_name',
-            'country',
-            'state',
-            'city',
-            'job_title',
-            'level',
-            'rate'
-        ];
-
-        $fields_to_update = array();
-        $params = array();
-
-        // Build update fields and parameters
-        foreach ($fields as $field) {
-            // Include field even if empty to allow clearing fields
-            if (isset($this->$field)) {
-                $fields_to_update[] = "$field = :$field";
-                $params[":$field"] = $this->$field;
-            }
-        }
-
-        // If no fields to update, return false
-        if (empty($fields_to_update)) {
-            return false;
-        }
-
         try {
+            // Start transaction
+            $this->conn->beginTransaction();
+    
+            $fields_to_update = array();
+            $params = array();
+    
+            // Handle regular fields
+            $fields = [
+                'first_name', 'middle_name', 'last_name',
+                'country', 'state', 'city',
+                'job_title', 'level', 'rate'
+            ];
+    
+            foreach ($fields as $field) {
+                if (isset($this->$field)) {
+                    $fields_to_update[] = "$field = :$field";
+                    $params[":$field"] = $this->$field;
+                }
+            }
+    
+            // Handle resume upload if provided
+            if (isset($_FILES['resume']) && $_FILES['resume']['error'] === 0) {
+                $upload_dir = dirname(__DIR__) . '/uploads/';
+                
+                // Create uploads directory if it doesn't exist
+                if (!file_exists($upload_dir)) {
+                    mkdir($upload_dir, 0755, true);
+                }
+    
+                // Get old resume filename if exists
+                $stmt = $this->conn->prepare("SELECT resume FROM " . $this->table . " WHERE email = :email");
+                $stmt->execute([':email' => $this->email]);
+                $old_resume = $stmt->fetchColumn();
+    
+                // Generate unique filename
+                $file_extension = strtolower(pathinfo($_FILES['resume']['name'], PATHINFO_EXTENSION));
+                $unique_filename = uniqid('resume_') . '.' . $file_extension;
+                $target_file = $upload_dir . $unique_filename;
+    
+                // Validate file type
+                $allowed_types = ['pdf', 'doc', 'docx'];
+                if (!in_array($file_extension, $allowed_types)) {
+                    throw new Exception("Invalid file type. Only PDF, DOC, and DOCX files are allowed.");
+                }
+    
+                // Upload new file
+                if (move_uploaded_file($_FILES['resume']['tmp_name'], $target_file)) {
+                    // Delete old resume if exists
+                    if ($old_resume && file_exists($upload_dir . $old_resume)) {
+                        unlink($upload_dir . $old_resume);
+                    }
+    
+                    $fields_to_update[] = "resume = :resume";
+                    $params[":resume"] = $unique_filename;
+                } else {
+                    throw new Exception("Failed to upload resume.");
+                }
+            }
+    
+            if (empty($fields_to_update)) {
+                return false;
+            }
+    
             // Construct and execute the SQL query
             $sql = "UPDATE " . $this->table . " 
-                   SET " . implode(", ", $fields_to_update) . " 
-                   WHERE email = :email";
+                    SET " . implode(", ", $fields_to_update) . " 
+                    WHERE email = :email";
             $params[':email'] = $this->email;
-
+    
             $stmt = $this->conn->prepare($sql);
-            return $stmt->execute($params);
-
-        } catch (PDOException $e) {
-            // Log the error properly
+            $result = $stmt->execute($params);
+    
+            // Commit transaction
+            $this->conn->commit();
+            return $result;
+    
+        } catch (Exception $e) {
+            // Rollback transaction on error
+            $this->conn->rollBack();
             error_log("Update failed: " . $e->getMessage());
-            return false;
+            throw $e;
         }
     }
 

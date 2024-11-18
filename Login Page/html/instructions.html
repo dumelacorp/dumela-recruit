@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
+
+</head>
+<body>
+    <div> 
+        <div>
+            <a href="/html/login.html"><img class="logo" src="/img/dum_logo.png" alt="Dumela Corp" width="148px"; height="48px"></a>
+        </div> 
+        <div class="image"><img class="background-img rotate-image" src="/img/protoring.jpg" alt=""></div>
+    </div>
+    
+    <div id="login-area">
+        <div class="label">
+            <div class="text-wrapper">Login</div>
+        </div>
+
+        <div class="row">
+						<form control="" class="form-group">
+							<div class="row">
+								<input type="text" name="username" id="username" class="form__input" placeholder="Username">
+                                <i class='bx bxs-user'></i>
+							</div>
+							<div class="row">
+								<!-- <span class="fa fa-lock"></span> -->
+								<input type="password" name="password" id="password" class="form__input" placeholder="Password">
+                                <i class='bx bxs-lock'></i>
+							</div>
+							<div class="row">
+								<a href="/html/login.html"><label class="forgot-password" for="forgot-password">Forgot Password?</label></a>
+							</div>
+							<div class="row">
+								<!-- <input type="submit" value="Submit" class="btn"> -->
+                                 <button id="submit" type="submit" class="login">instructions</button>
+							</div>
+                            <div class="row">
+                                <div class="sign-in">
+                                    <h1>Or Sign in With</h1>
+
+                                    <button id="google-signin" type="submit" class="google"><i class='bx bxl-google'></i>  Sign in with Google</button>
+                                    
+                                    <button id="appleid-signin" type="submit" class="apple"><i class='bx bxl-apple'></i>  Sign in with Apple</button>
+
+                                </div>
+                            </div>
+						</form>
+					</div>
+					<div class="row">
+    </div>
+
+</body>
+</html>

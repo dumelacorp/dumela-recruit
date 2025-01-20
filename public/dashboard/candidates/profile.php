@@ -44,7 +44,7 @@ try {
         $fields = [
             'first_name', 'middle_name', 'last_name', 
             'country', 'state', 'city', 
-            'job_title', 'level', 'rate'
+            'job_title', 'level', 'rate', 'github'
         ];
 
         foreach ($fields as $field) {
@@ -201,6 +201,13 @@ try {
                             <label for="rate" class="block text-gray-700 text-sm font-bold mb-2">Rate</label>
                             <input type="text" id="rate" name="rate" 
                                 value="<?php echo htmlspecialchars($candidateDetails['rate'] ?? ''); ?>" 
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="github" class="block text-gray-700 text-sm font-bold mb-2">GitHub</label>
+                            <input type="text" id="github" name="github" 
+                                value="<?php echo htmlspecialchars($candidateDetails['github'] ?? ''); ?>" 
                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         </div>
                     </div>

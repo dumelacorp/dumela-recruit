@@ -14,6 +14,7 @@ class Candidate {
     public $job_title;
     public $level;
     public $resume;
+    public $github;
 
     public $rate;
     public $rate_period;
@@ -321,7 +322,8 @@ class Candidate {
             'city',
             'job_title',
             'level',
-            'rate'
+            'rate',
+            'github'
         ];
 
         $fields_to_update = array();

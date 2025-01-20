@@ -112,6 +112,7 @@ if (!$candidateDetails) {
                     <p class="mb-2"><strong class="font-medium">Job Title:</strong> <?php echo htmlspecialchars($candidateDetails['job_title'] ?? 'N/A'); ?></p>
                     <p class="mb-2"><strong class="font-medium">Level:</strong> <?php echo htmlspecialchars($candidateDetails['level'] ?? 'N/A'); ?></p>
                     <p class="mb-2"><strong class="font-medium">Rate:</strong> <?php echo htmlspecialchars($candidateDetails['rate'] ?? 'N/A') . ' / ' . htmlspecialchars($candidateDetails['rate_period'] ?? 'N/A'); ?></p>
+                    <p class="mb-2"><strong class="font-medium">Github:</strong> <?php echo htmlspecialchars($candidateDetails['github'] ?? 'N/A'); ?></p>
                 </div>
 
                 <!-- Add debug information if needed -->

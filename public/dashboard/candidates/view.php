@@ -116,10 +116,10 @@
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="middle_name">Outsource Rate</label>
                     <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="middle_name" value="<?php echo $candidateDetails['outsource_rate']; ?>">
                 </div>
-                <!-- <div class="w-full md:w-1/2 px-2 mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email</label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="email" name="email" value="<?php echo $candidateDetails['outsource_rate']; ?>" required>
-                </div> -->
+                <div class="w-full md:w-1/2 px-2 mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Github</label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="github" name="github" value="<?php echo $candidateDetails['github']; ?>" required>
+                </div>
             </div>
 
             <!-- Add the rest of your form fields here, following the same structure -->

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Check Page</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../../css/technical-check/check.css">
+</head>
+<body>
+    
+    <div> 
+        <div class="image"><img class="background-img rotate-image" src="../../img/protoring.jpg" alt=""></div>
+    </div>
+    <div>
+        <a href="../../html/login.html"><img class="logo" src="../../img/dum_logo.png" alt="Dumela Corp" width="148px"; height="48px"></a>
+    </div> 
+
+    <div class="instructions">
+        
+        <!-- Webcam Check Section -->
+        <div class="parent1">
+            <div class="child1">
+                <img src="../../img/webcam.png" alt="Webcam Check" width="50px" height="50px">
+            </div>
+            <div class="child2"><h3>WEBCAM CHECK</h3></div>
+        </div>
+        
+        <div class="parent2">
+            <div class="child1">
+                <p>Ensure your webcam is working correctly.</p>
+                <p>Live webcam feed preview</p>
+            </div>
+
+            <div class="child2 webcam">
+                <button class="next" id="webcamTest">Take Webcam Photo</button>
+            </div>
+        </div>
+
+        <!-- Webcam Preview -->
+        <div id="webcamPreview" style="display: none; text-align: center;">
+            <video id="webcamVideo" autoplay muted width="300"></video>
+            <canvas id="webcamCanvas" width="300" height="200" style="display: none;"></canvas>
+            <button id="capturePhoto">Capture Photo</button>
+            <button id="closeWebcam">Close Webcam</button>
+        </div>
+
+        <!-- Microphone Check Section -->
+        <div class="parent1 bottom">
+            <div class="child1">
+                <img src="../../img/microphone.png" alt="Microphone Check" width="50px" height="50px">
+            </div>
+            
+            <div class="child2"><h3>MICROPHONE CHECK</h3></div>
+        </div>
+        
+        <div class="parent2">
+            <div class="child1">
+                <p>Ensure your microphone is working correctly.</p>
+            </div>
+
+            <div class="child2 microphone">
+                <button class="next" id="microphoneTest">Record Audio</button>
+            </div>
+        </div>
+
+        <!-- Microphone Recording -->
+        <div id="microphonePreview" style="display: none; text-align: center;">
+            <button id="startRecording">Start Recording</button>
+            <button id="stopRecording" style="display: none;">Stop Recording</button>
+            <audio id="audioPlayback" controls style="display: none;"></audio>
+            <button id="closeMicrophone">Close Microphone</button>
+        </div>
+
+        <!-- Next Button (Initially Disabled) -->
+        <div class="parent2">
+            <div class="child2 next-container">
+                <button id="nextPage" class="next" disabled>Next</button>
+            </div>
+        </div>
+
+        <div id="timeRestrictionMessage" style="display: none; text-align: center; color: red; font-weight: bold;">
+            The time for checks has expired. You can no longer perform the checks.
+        </div>
+
+    </div>
+
+    <script>
+        let webcamTestDone = false;
+        let microphoneTestDone = false;
+
+        function checkCompletion() {
+            if (webcamTestDone && microphoneTestDone) {
+                document.getElementById('nextPage').disabled = false; // Enable Next button
+            }
+        }
+
+        // Define Exam Time
+        const examStartTime = new Date();
+        examStartTime.setHours(9, 0, 0, 0); // Exam starts at 9:00 AM
+
+        const cutoffTime = new Date(examStartTime);
+        cutoffTime.setMinutes(examStartTime.getMinutes() - 30); // 8:30 AM cutoff
+
+        function checkTimeRestriction() {
+            const now = new Date();
+            if (now >= cutoffTime) {
+                // Disable all buttons
+                document.getElementById('webcamTest').disabled = true;
+                document.getElementById('microphoneTest').disabled = true;
+
+                // Show restriction message
+                document.getElementById('timeRestrictionMessage').style.display = 'block';
+            }
+        }
+
+        // Webcam Check Logic
+        let webcamStream;
+        document.getElementById('webcamTest').addEventListener('click', function() {
+            const webcamPreview = document.getElementById('webcamPreview');
+            const video = document.getElementById('webcamVideo');
+
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then((stream) => {
+                    webcamStream = stream; // Store the stream to stop it later
+                    video.srcObject = stream;
+                    webcamPreview.style.display = 'block';
+                })
+                .catch((err) => {
+                    alert('Webcam access denied or not available: ' + err.message);
+                });
+
+            // Capture Photo
+            document.getElementById('capturePhoto').addEventListener('click', function() {
+                const canvas = document.getElementById('webcamCanvas');
+                const context = canvas.getContext('2d');
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                canvas.style.display = 'block';
+                webcamTestDone = true; // Mark webcam test as done
+                checkCompletion(); // Check if Next button should be enabled
+            });
+        });
+
+        // Close Webcam
+        document.getElementById('closeWebcam').addEventListener('click', function() {
+            const webcamPreview = document.getElementById('webcamPreview');
+            webcamPreview.style.display = 'none';
+
+            // Stop all video tracks
+            if (webcamStream) {
+                webcamStream.getTracks().forEach(track => track.stop());
+            }
+        });
+
+        // Microphone Check Logic
+        let mediaRecorder;
+        let audioChunks = [];
+
+        document.getElementById('microphoneTest').addEventListener('click', function() {
+            const microphonePreview = document.getElementById('microphonePreview');
+            microphonePreview.style.display = 'block';
+
+            const startRecording = document.getElementById('startRecording');
+            const stopRecording = document.getElementById('stopRecording');
+            const audioPlayback = document.getElementById('audioPlayback');
+
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then((stream) => {
+                    mediaRecorder = new MediaRecorder(stream);
+
+                    startRecording.addEventListener('click', function() {
+                        audioChunks = [];
+                        mediaRecorder.start();
+                        startRecording.style.display = 'none';
+                        stopRecording.style.display = 'inline-block';
+                    });
+
+                    stopRecording.addEventListener('click', function() {
+                        mediaRecorder.stop();
+                        startRecording.style.display = 'inline-block';
+                        stopRecording.style.display = 'none';
+                        microphoneTestDone = true; // Mark microphone test as done
+                        checkCompletion(); // Check if Next button should be enabled
+                    });
+
+                    mediaRecorder.ondataavailable = function(event) {
+                        audioChunks.push(event.data);
+                    };
+
+                    mediaRecorder.onstop = function() {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                        const audioURL = URL.createObjectURL(audioBlob);
+                        audioPlayback.src = audioURL;
+                        audioPlayback.style.display = 'block';
+                    };
+                })
+                .catch((err) => {
+                    alert('Microphone access denied or not available: ' + err.message);
+                });
+        });
+
+        // Close Microphone
+        document.getElementById('closeMicrophone').addEventListener('click', function() {
+            const microphonePreview = document.getElementById('microphonePreview');
+            microphonePreview.style.display = 'none';
+
+            // Stop all active media tracks if available
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                mediaRecorder.stop();
+            }
+        });
+
+        // Next Button Redirect
+        document.getElementById('nextPage').addEventListener('click', function() {
+            window.location.href ="../../html/technical/check4.html"; 
+        });
+
+    </script>
+
+</body>
+</html>

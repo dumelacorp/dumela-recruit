@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Check Page</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../../css/technical-check/check.css">
+</head>
+<body>
+    
+    <div> 
+        <div class="image"><img class="background-img rotate-image" src="../../img/protoring.jpg" alt=""></div>
+    </div>
+    <div>
+        <a href="../../html/login.html"><img class="logo" src="../../img/dum_logo.png" alt="Dumela Corp" width="148px" height="48px"></a>
+    </div> 
+
+    <div class="instructions">
+        
+        <!-- Browser Compatibility Check Section -->
+        <div class="parent1">
+            <div class="child1">
+                <img src="../../img/compatabilty.png" alt="Compatability Check" width="50px" height="50px">
+            </div>
+            <div class="child2"><h3>BROWSER COMPATIBILITY</h3></div>
+        </div>
+        
+        <div class="parent2">
+            <div class="child1">
+                <p>Check if your browser is supported.</p>
+                <p>List of supported browsers:</p>
+
+                <ol>
+                    <li>Google Chrome</li>
+                    <li>Mozilla Firefox</li>
+                    <li>Safari</li>
+                </ol>
+            </div>
+
+            <div class="child2 browser">
+                <button class="next" id="checkBrowser">Check Browser Compatibility</button> 
+            </div>
+        </div>
+
+        <!-- Internet Speed Test Section -->
+        <div class="parent1">
+            <div class="child1">
+                <img src="../../img/high-speed.png" alt="Speed Check" width="50px" height="50px">
+            </div>
+            <div class="child2"><h3>INTERNET SPEED TEST</h3></div>
+        </div>
+        
+        <div class="parent2">
+            <div class="child1">
+                <p>Check your internet connection speed.</p>
+            </div>
+
+            <div class="child2 speed">
+                <button class="next" id="runSpeedTest">Run Speed Test</button>
+            </div>
+        </div>
+
+        <!-- Next Button (Initially Disabled) -->
+        <div class="parent2">
+            <div class="child2 next-container">
+                <button id="nextPage" class="next" disabled>Next</button>
+            </div>
+        </div>
+
+        <div id="timeRestrictionMessage" style="display: none; text-align: center; color: red; font-weight: bold;">
+            The time for checks has expired. You can no longer perform the checks.
+        </div>
+
+    </div>
+
+    <script>
+        let browserCheckDone = false;
+        let speedTestDone = false;
+
+        function checkCompletion() {
+            if (browserCheckDone && speedTestDone) {
+                document.getElementById('nextPage').disabled = false; // Enable Next button
+            }
+        }
+
+        // Define Exam Time
+        const examStartTime = new Date();
+        examStartTime.setHours(9, 0, 0, 0); // Exam starts at 9:00 AM
+
+        const cutoffTime = new Date(examStartTime);
+        cutoffTime.setMinutes(examStartTime.getMinutes() - 30); // 8:30 AM cutoff
+
+        function checkTimeRestriction() {
+            const now = new Date();
+            if (now >= cutoffTime) {
+                // Disable all buttons
+                document.getElementById('checkBrowser').disabled = true;
+                document.getElementById('runSpeedTest').disabled = true;
+
+                // Show restriction message
+                document.getElementById('timeRestrictionMessage').style.display = 'block';
+            }
+        }
+
+        // Browser Compatibility Check
+        document.getElementById('checkBrowser').addEventListener('click', function() {
+            const userAgent = navigator.userAgent; // Get browser information
+            const xhr = new XMLHttpRequest();
+            
+            xhr.open("POST", "./check-browser.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    alert(xhr.responseText); // Display the response from PHP
+                    browserCheckDone = true;
+                    checkCompletion();
+                } else {
+                    alert("Failed to check browser compatibility.");
+                }
+            };
+
+            xhr.send(`userAgent=${encodeURIComponent(userAgent)}`);
+        });
+
+        // Internet Speed Test
+        document.getElementById('runSpeedTest').addEventListener('click', function() {
+            const startTime = new Date().getTime();
+            const fileSize = 1048576; // 1 MB file size in bytes
+
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "./test-file.pdf", true);
+            xhr.responseType = "blob";
+
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    const endTime = new Date().getTime();
+                    const duration = (endTime - startTime) / 1000; // Time in seconds
+                    const speedMbps = (fileSize / (1024 * 1024) / duration * 8).toFixed(2);
+                    alert(`Your internet speed is approximately ${speedMbps} Mbps.`);
+                    speedTestDone = true;
+                    checkCompletion();
+                } else {
+                    alert("Failed to test internet speed.");
+                }
+            };
+
+            xhr.onerror = function() {
+                alert("Error during speed test.");
+            };
+
+            xhr.send();
+        });
+
+        // Next Button Redirect
+        document.getElementById('nextPage').addEventListener('click', function() {
+            window.location.href = "../../html/technical/check3.html"; 
+        });
+
+    </script>
+
+</body>
+</html>

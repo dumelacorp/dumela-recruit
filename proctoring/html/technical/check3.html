@@ -114,6 +114,9 @@
             }
         }
 
+        checkTimeRestriction();
+        setInterval(checkTimeRestriction, 1000);
+
         // Webcam Check Logic
         let webcamStream;
         document.getElementById('webcamTest').addEventListener('click', function() {

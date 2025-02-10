@@ -103,6 +103,9 @@
             }
         }
 
+        checkTimeRestriction();
+        setInterval(checkTimeRestriction, 1000); 
+
         // Browser Compatibility Check
         document.getElementById('checkBrowser').addEventListener('click', function() {
             const userAgent = navigator.userAgent; // Get browser information
